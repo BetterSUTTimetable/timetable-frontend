@@ -1,0 +1,14 @@
+{
+  "name": "generator",
+  "private": true,
+  "cacheDirectories": [
+    "node_modules",
+    "bower_components"
+  ],
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "dependencies": {
+    "bower": "^1.7.9"
+  }
+}
