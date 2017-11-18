@@ -1,0 +1,37 @@
+<div id="input" class="section scrollspy">
+    <p class="caption">
+        All we want is readable timetable.
+    </p>
+
+    <h2 class="header">Sign up. Don't be fool.</h2>
+    <br>
+
+    <div class="row">
+        <form novalidate class="col s12" name="registration">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="email" type="email" class="validate" ng-model="newUser.email" required>
+                    <label for="email" data-error="Nope. It isn't proper email address." data-success="We won't spam you. Maybe.">Email</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="password" type="password" class="validate" ng-model="newUser.password" required>
+                    <label for="password">Password</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="second-password" type="password" class="validate" ng-model="newUser.repeatedPassword" required>
+                    <label for="second-password">Repeat password</label>
+                </div>
+            </div>
+            <div class="row">
+                <a class="waves-effect waves-light btn" ng-click="register()" ng-disabled="registration.$invalid">Register <i class="material-icons right">send</i></a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

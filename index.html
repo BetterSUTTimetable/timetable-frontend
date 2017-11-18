@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">    
     <link rel="stylesheet" href="bower_components/materialize/dist/css/materialize.css" />
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />-->
     <link rel="stylesheet" href="styles/main.css"> <!--Custom css script-->
 
   </head>
@@ -19,37 +19,42 @@
       <p class="center-block">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div class="header">
-      <div class="navbar navbar-default" role="navigation">
-        <div class="container">
-          <div class="navbar-header">
-
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-
-            <a class="navbar-brand" href="#/">Better timetable</a>
-          </div>
-
-          <div class="collapse navbar-collapse" id="js-navbar-collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#/">Main</a></li>
-            </ul>
-          </div>
-        </div>
+    <nav>
+      <div class="nav-wrapper">
+        <ul id="slide-out" class="side-nav">
+          <li>
+            <div class="user-view">
+              <div class="background">
+              </div>
+              <a href="#!name"><span class="white-text name">John Doe</span></a>
+              <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+            </div>
+          </li>
+          <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+          <li><a href="#!">Second Link</a></li>
+          <li><div class="divider"></div></li>
+          <li><a class="subheader">Subheader</a></li>
+          <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+        </ul>
+        <a href="#" data-activates="slide-out" id="menu"><i class="material-icons">menu</i></a>
+        <a href="#" class="brand-logo">Plan zajęć</a>
       </div>
-    </div>
-    
-    <div class="container">
-      <div ng-view=""></div> 
-    </div>
+    </nav>
 
-    <footer class="footer">
+    <main>
       <div class="container">
-        <p><span class="glyphicon glyphicon-heart"></span>&nbsp;Politechnika Śląska 2017</p>
+        <div ng-view=""></div>
+      </div>
+    </main>
+
+
+
+    <footer class="page-footer">
+      <div class="footer-copyright">
+        <div class="container">
+          © 2017 Politechnika Śląska
+          <a class="grey-text text-lighten-4 right" href="https://plan.polsl.pl/" target="_blank">Archetype</a>
+        </div>
       </div>
     </footer>
 
@@ -65,10 +70,24 @@
     <script src="bower_components/materialize/dist/js/materialize.js"></script>    
 
     <script src="scripts/app/app.js"></script>
+
     <script src="scripts/app/config/main.route.js"></script>
+    <script src="scripts/app/config/register.route.js"></script>
+    <script src="scripts/app/config/login.route.js"></script>
+
     <script src="scripts/app/controller/main.controller.js"></script>
+    <script src="scripts/app/controller/register.controller.js"></script>
+    <script src="scripts/app/controller/login.controller.js"></script>
+
+
     <script src="scripts/app/service/main.service.js"></script>
     <script src="scripts/app/component/main.resource.js"></script>
+
+    <script>
+        $( document ).ready(function(){
+            $("#menu").sideNav();
+        });
+    </script>
 
   </body>
 </html>

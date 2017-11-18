@@ -1,0 +1,37 @@
+<div id="input" class="section scrollspy">
+    <p class="caption">
+        Nice to see you.
+    </p>
+
+    <h2 class="header">Log in</h2>
+    <br>
+
+    <div class="row">
+        <form novalidate class="col s12" name="login">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="email" type="email" class="validate" ng-model="user.email" required>
+                    <label for="email" data-error="Nope. It isn't proper email address." data-success="OK">Email</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="password" type="password" class="validate" ng-model="user.password" required>
+                    <label for="password">Password</label>
+                </div>
+            </div>
+            <div class="row">
+                <p class="col">
+                    <input type="checkbox" class="filled-in" id="filled-in-box" checked="checked" ng-model="user.rememberMe"/>
+                    <label for="filled-in-box">Remember me</label>
+                </p>
+            </div>
+            <div class="row">
+                <a class="waves-effect waves-light btn" ng-click="login()" ng-disabled="login.$invalid">Log in <i class="material-icons right">send</i></a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
