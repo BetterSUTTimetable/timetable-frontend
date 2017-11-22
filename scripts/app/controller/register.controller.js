@@ -2,7 +2,7 @@
 
 
 angular.module('betterTimetable')
-    .controller('RegisterCtrl', function ($scope) {
+    .controller('RegisterCtrl', function ($scope, RegisterRsc, $location) {
 
         $scope.newUser = {};
 
@@ -11,9 +11,17 @@ angular.module('betterTimetable')
                 Materialize.toast('Hey, hey, hey! Passwords are not the same', 4000);
                 return;
             } else {
-                //TODO: add register service
-                //TODO: call register service
+                register($scope.newUser);
             }
         }
 
+        var register = function (data) {
+            RegisterRsc.user(data, function(){
+                Materialize.toast('Thanks! Now you can log in!', 4000);
+                $location.path("/login");
+            }, function(){
+                Materialize.toast('Error! Probably entered e-mail address is in use.', 4000);
+                return;
+            })
+        }
     });

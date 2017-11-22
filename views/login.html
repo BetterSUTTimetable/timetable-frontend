@@ -7,7 +7,7 @@
     <br>
 
     <div class="row">
-        <form novalidate class="col s12" name="login">
+        <form novalidate class="col s12" name="loginForm">
             <div class="row">
                 <div class="input-field col s12">
                     <input id="email" type="email" class="validate" ng-model="user.email" required>
@@ -27,9 +27,12 @@
                 </p>
             </div>
             <div class="row">
-                <a class="waves-effect waves-light btn" ng-click="login()" ng-disabled="login.$invalid">Log in <i class="material-icons right">send</i></a>
+                <a class="waves-effect waves-light btn" ng-click="login()" ng-disabled="loginForm.$invalid">Log in <i class="material-icons right">send</i></a>
             </div>
         </form>
+    </div>
+    <div class="row">
+        <a class="col s12 waves-effect waves-light btn" ng-href="/#!/register">Register</a>
     </div>
 </div>
 

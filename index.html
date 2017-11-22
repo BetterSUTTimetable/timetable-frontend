@@ -20,7 +20,7 @@
     <![endif]-->
 
     <nav>
-      <div class="nav-wrapper">
+      <div class="nav-wrapper teal lighten-2">
         <ul id="slide-out" class="side-nav">
           <li>
             <div class="user-view">
@@ -37,7 +37,11 @@
           <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
         </ul>
         <a href="#" data-activates="slide-out" id="menu"><i class="material-icons">menu</i></a>
-        <a href="#" class="brand-logo">Plan zajęć</a>
+        <ul class="right">
+          <li><a ng-href="/#!/login" ng-if="!$root.isAuthenticated()">Log in</a></li>
+          <li><a ng-href="/#!/custom" ng-if="$root.isAuthenticated()">My timetable</a></li>
+          <li><a href="" ng-if="$root.isAuthenticated()">Log out</a></li>
+        </ul>
       </div>
     </nav>
 
@@ -49,7 +53,7 @@
 
 
 
-    <footer class="page-footer">
+    <footer class="page-footer teal lighten-2">
       <div class="footer-copyright">
         <div class="container">
           © 2017 Politechnika Śląska
@@ -67,21 +71,28 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-    <script src="bower_components/materialize/dist/js/materialize.js"></script>    
+    <script src="bower_components/materialize/dist/js/materialize.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
 
     <script src="scripts/app/app.js"></script>
+    <script src="scripts/app/auth/auth.interceptor.js"></script>
 
     <script src="scripts/app/config/main.route.js"></script>
     <script src="scripts/app/config/register.route.js"></script>
     <script src="scripts/app/config/login.route.js"></script>
+    <script src="scripts/app/config/custom.route.js"></script>
 
     <script src="scripts/app/controller/main.controller.js"></script>
     <script src="scripts/app/controller/register.controller.js"></script>
     <script src="scripts/app/controller/login.controller.js"></script>
-
+    <script src="scripts/app/controller/custom.controller.js"></script>
 
     <script src="scripts/app/service/main.service.js"></script>
+
     <script src="scripts/app/component/main.resource.js"></script>
+    <script src="scripts/app/component/register.resource.js"></script>
+    <script src="scripts/app/component/auth.resource.js"></script>
+    <script src="scripts/app/component/custom.resource.js"></script>
 
     <script>
         $( document ).ready(function(){
