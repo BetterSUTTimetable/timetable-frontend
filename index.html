@@ -8,12 +8,15 @@
     <link rel="icon" href="favicon.ico">
     <title>Better timetable</title>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">    
+    <link rel="stylesheet" href="bower_components/angular-tree-widget/dist/angular-tree-widget.min.css">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">  
     <link rel="stylesheet" href="bower_components/materialize/dist/css/materialize.css" />
     <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />-->
     <link rel="stylesheet" href="styles/main.css"> <!--Custom css script-->
-
   </head>
+  
   <body ng-app="betterTimetable">
     <!--[if lte IE 8]>
       <p class="center-block">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -24,17 +27,12 @@
         <ul id="slide-out" class="side-nav">
           <li>
             <div class="user-view">
-              <div class="background">
-              </div>
-              <a href="#!name"><span class="white-text name">John Doe</span></a>
-              <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+              <!-- <div class="background">
+              </div> -->
+              <span id="text_menu">Menu</span>
             </div>
-          </li>
-          <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-          <li><a href="#!">Second Link</a></li>
-          <li><div class="divider"></div></li>
-          <li><a class="subheader">Subheader</a></li>
-          <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+          </li>      
+          <categories></categories>  
         </ul>
         <a href="#" data-activates="slide-out" id="menu"><i class="material-icons">menu</i></a>
         <a href="#" class="brand-logo">Plan zajęć</a>
@@ -46,8 +44,6 @@
         <div ng-view=""></div>
       </div>
     </main>
-
-
 
     <footer class="page-footer">
       <div class="footer-copyright">
@@ -69,19 +65,26 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="bower_components/materialize/dist/js/materialize.js"></script>    
 
+    <script src="bower_components/angular-recursion/angular-recursion.min.js"></script>    
+    <script src="bower_components/angular-tree-widget/dist/angular-tree-widget.min.js"></script>
+
+
     <script src="scripts/app/app.js"></script>
+
 
     <script src="scripts/app/config/main.route.js"></script>
     <script src="scripts/app/config/register.route.js"></script>
     <script src="scripts/app/config/login.route.js"></script>
+    <script src="scripts/app/config/categories.route.js"></script>    
 
     <script src="scripts/app/controller/main.controller.js"></script>
     <script src="scripts/app/controller/register.controller.js"></script>
     <script src="scripts/app/controller/login.controller.js"></script>
-
+    <script src="scripts/app/controller/categories.controller.js"></script>
 
     <script src="scripts/app/service/main.service.js"></script>
     <script src="scripts/app/component/main.resource.js"></script>
+    <script src="scripts/app/component/categories.resource.js"></script>
 
     <script>
         $( document ).ready(function(){

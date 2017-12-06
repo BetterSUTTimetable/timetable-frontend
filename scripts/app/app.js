@@ -6,5 +6,7 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'TreeWidget',
+    'RecursionHelper'
   ]);

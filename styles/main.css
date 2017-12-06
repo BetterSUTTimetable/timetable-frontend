@@ -13,3 +13,24 @@ main {
     padding-left: 1vh;
     padding-right: 5vh;
 }
+
+#text_menu {
+    font-size: 24px;
+}
+
+.side-nav {
+    background-color:#16917e; 
+} 
+
+.nav-wrapper ul li:hover{
+    background-color: #4bbbaa;
+}
+
+.nav-wrapper ul li a {
+    text-decoration: none; 
+}
+
+.nav-wrapper, .page-footer{
+    background-color: #188578;
+}
+
