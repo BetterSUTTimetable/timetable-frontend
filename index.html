@@ -8,11 +8,11 @@
     <link rel="icon" href="favicon.ico">
     <title>Better timetable</title>
 
-    <link rel="stylesheet" href="bower_components/angular-tree-widget/dist/angular-tree-widget.min.css">
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">  
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">  
     <link rel="stylesheet" href="bower_components/materialize/dist/css/materialize.css" />
+    <link rel="stylesheet" href="styles/angular.treeview.css">   
+    
     <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />-->
     <link rel="stylesheet" href="styles/main.css"> <!--Custom css script-->
   </head>
@@ -21,19 +21,9 @@
     <!--[if lte IE 8]>
       <p class="center-block">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
+  
     <nav>
       <div class="nav-wrapper teal lighten-2">
-        <ul id="slide-out" class="side-nav">
-          <li>
-            <div class="user-view">
-              <!-- <div class="background">
-              </div> -->
-              <span id="text_menu">Menu</span>
-            </div>
-          </li>      
-          <categories></categories>  
-        </ul>
         <a href="#" data-activates="slide-out" id="menu"><i class="material-icons">menu</i></a>
         <ul class="right">
           <li><a ng-href="/#!/login" ng-if="!$root.isAuthenticated()">Log in</a></li>
@@ -42,6 +32,17 @@
         </ul>
       </div>
     </nav>
+
+    <div>
+        <ul id="slide-out" class="side-nav">
+           <li>
+            <div class="user-view">
+              <span id="text_menu">Timetable</span>
+            </div>
+          </li>
+          <tree-view></tree-view>  
+        </ul>
+    </div>
 
     <main>
       <div class="container">
@@ -69,10 +70,8 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="bower_components/materialize/dist/js/materialize.js"></script>
     <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
-
-    <script src="bower_components/angular-recursion/angular-recursion.min.js"></script>    
-    <script src="bower_components/angular-tree-widget/dist/angular-tree-widget.min.js"></script>
-
+    <script src="scripts/treeView/angular.treeview.js"></script>
+    
 
     <script src="scripts/app/app.js"></script>
     <script src="scripts/app/auth/auth.interceptor.js"></script>
@@ -82,15 +81,17 @@
     <script src="scripts/app/config/register.route.js"></script>
     <script src="scripts/app/config/login.route.js"></script>
     <script src="scripts/app/config/custom.route.js"></script>
-    <script src="scripts/app/config/categories.route.js"></script>    
     <script src="scripts/app/controller/main.controller.js"></script>
     <script src="scripts/app/controller/register.controller.js"></script>
     <script src="scripts/app/controller/login.controller.js"></script>
     <script src="scripts/app/controller/custom.controller.js"></script>
-    <script src="scripts/app/controller/categories.controller.js"></script>
+    <script src="scripts/app/controller/treeView.controller.js"></script>
 
     <script src="scripts/app/component/main.resource.js"></script>
-    <script src="scripts/app/component/categories.resource.js"></script>
+    <script src="scripts/app/component/category.resource.js"></script>
+    <script src="scripts/app/component/rootCategories.resource.js"></script>
+    <script src="scripts/app/component/subcategories.resource.js"></script>
+    
     <script src="scripts/app/component/register.resource.js"></script>
     <script src="scripts/app/component/auth.resource.js"></script>
     <script src="scripts/app/component/custom.resource.js"></script>
@@ -100,6 +101,7 @@
             $("#menu").sideNav();
         });
     </script>
+ 
 
   </body>
 </html>

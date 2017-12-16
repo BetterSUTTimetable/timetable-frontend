@@ -20,17 +20,6 @@ main {
 
 .side-nav {
     background-color:#16917e; 
-} 
+}  
 
-.nav-wrapper ul li:hover{
-    background-color: #4bbbaa;
-}
-
-.nav-wrapper ul li a {
-    text-decoration: none; 
-}
-
-.nav-wrapper, .page-footer{
-    background-color: #188578;
-}
 

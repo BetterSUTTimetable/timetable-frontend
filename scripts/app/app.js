@@ -7,11 +7,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'TreeWidget',
-    'RecursionHelper'
-  ]);
-    'ngTouch',
-    'LocalStorageModule'
+    'LocalStorageModule', 
+    'angularTreeview'
   ])
     .run(function($rootScope, localStorageService){
         $rootScope.url = "http://localhost:8080";
