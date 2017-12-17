@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="card">
+            <h5 class="center padding5">{{currentWeek}}</h5>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="btn-group btn-group-justified" role="group">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default" ng-click="showAll()">ukryte</button>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default" ng-click="addAll()">do planu</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large waves-effect waves-light red" ng-click="getNextWeek()"><i class="material-icons">chevron_right</i></a>
+</div>
+<div class="row" id="timetable">
+</div>
+<div class="fixed-action-btn" style="bottom: 45px; left: 24px; width: 50%;">
+    <a class="btn-floating btn-large waves-effect waves-light red" ng-click="getPreviousWeek()"><i class="material-icons">chevron_left</i></a>
+</div>

@@ -13,7 +13,6 @@ main {
     padding-left: 1vh;
     padding-right: 5vh;
 }
-
 #text_menu {
     font-size: 24px;
 }
@@ -22,4 +21,59 @@ main {
     background-color:#16917e; 
 }  
 
+.reset-margin {
+    margin: 0;
+}
+.break {
+    border: solid 1px gainsboro;
+}
+
+.course {
+    border: 1px solid transparent;
+    border-right-color: gainsboro;
+    border-left-color: gainsboro;
+    cursor: pointer;
+}
+.transparent-text {
+    color: transparent;
+}
+
+#legend{
+    margin: 10px 0px;
+}
+.square{
+    display: inline-block;
+    background-color: #00b0ff;
+    height: 40px;
+    width: 40px;
+}
+.margin-top-10{
+    margin-top: 10px;
+}
+
+.border-top{
+    border-top: 1px solid gainsboro;
+}
+
+.border-bottom {
+    border-bottom: 1px solid gainsboro;
+}
+
+.modal{
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.padding5{
+    padding: 5px;
+}
+
+.material-icons.switch-course-button{
+    font-size: 14px !important;
+}
+
+.btn {
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
+}
 
