@@ -15,7 +15,7 @@ angular
         
         $rootScope.isAuthenticated = function () {
             var isAuthenticated = localStorageService.get("isAuthenticated");
-            console.log(isAuthenticated);
+            //console.log(isAuthenticated);
             return isAuthenticated
         }
     })

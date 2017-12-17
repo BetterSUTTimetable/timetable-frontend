@@ -13,7 +13,6 @@ main {
     padding-left: 1vh;
     padding-right: 5vh;
 }
-
 #text_menu {
     font-size: 24px;
 }
@@ -22,4 +21,22 @@ main {
     background-color:#16917e; 
 }  
 
+.reset-margin {
+    margin: 0;
+}
+.break {
+    border: solid 1px gainsboro;
+}
 
+#legend{
+    margin: 10px 0px;
+}
+.square{
+    display: inline-block;
+    background-color: #00b0ff;
+    height: 40px;
+    width: 40px;
+}
+.margin-top-10{
+    margin-top: 10px;
+}
