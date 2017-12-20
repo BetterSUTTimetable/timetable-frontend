@@ -12,13 +12,6 @@ angular.module('betterTimetable')
                 6 : "Niedziela"
         }
 
-
-        var _getTemplate = function () {
-            //each course is a column
-            //if we have only one course, it is a column 12
-            //if we have duplicated courses, each course is a column 12 / courses.length
-        }
-
         var _getHeader = function(dayNumber){
             return _dayName[dayNumber];
         }
@@ -44,9 +37,9 @@ angular.module('betterTimetable')
                 var column;
                 if(i === 0 && offset !== 0){
                     widthClass += " offset-m" + offset + " offset-l" + offset;
-                    column = $("<div id='" + id + "' class='col " + widthClass + "'></div>");
+                    column = $("<div id='" + id + "' class='col s12 " + widthClass + "'></div>");
                 } else {
-                    column = $("<div id='" + id + "' class='col " + widthClass + "'></div>");
+                    column = $("<div id='" + id + "' class='col s12 " + widthClass + "'></div>");
                 }
 
                 //ADD HEADER
@@ -62,7 +55,7 @@ angular.module('betterTimetable')
 
         }
 
-        var _selectProperRow = function(singleCourse, dayNumber){
+        var _selectProperRow = function(singleCourse, dayNumber, lastWithinDay){
             if(singleCourse === undefined || singleCourse === null){
                 return;
             }
@@ -71,17 +64,17 @@ angular.module('betterTimetable')
             var duration = singleCourse.duration.seconds;
 
             var beginCourseDate = new Date(1970, 0, 1); //reset
-            beginCourseDate.setSeconds(begin);
+            beginCourseDate.setSeconds(begin + 3600);
 
             var beginDayDate = new Date(beginCourseDate);
-            beginDayDate.setHours(7, 0, 0, 0);
+            beginDayDate.setHours(8, 0, 0, 0);
 
             var diff = beginCourseDate - beginDayDate; //in mili
 
             var secondsInQuarter = 900;
 
             var howManyRowsToSelect = duration / secondsInQuarter;
-            var offset = (diff / 1000 )/ secondsInQuarter - 1;
+            var offset = diff === 0 ? 0 :(diff / 1000 )/ secondsInQuarter;
 
             var dayColumn = $("#timetable").find("div#" + dayNumber);
             var dayRows = dayColumn.find("div.row.timetable");
@@ -97,6 +90,14 @@ angular.module('betterTimetable')
                     _setLecturers(dayRows[i], singleCourse);
                 } else {
                     _fillCourse(dayRows[i], singleCourse);
+                }
+            }
+
+            if(lastWithinDay) { //we would like to remove empty, unused space after this course
+                var firstAfter = offset + howManyRowsToSelect;
+                var quarterOfHourWithinDay = 52;
+                for(var k = firstAfter; k < quarterOfHourWithinDay; k++){
+                    $(dayRows[k]).remove();
                 }
             }
         }
@@ -173,7 +174,6 @@ angular.module('betterTimetable')
         var _howManyNotEmpty = function (groupedCourses) {
             var howMany = 0;
 
-            /*for(var i = 0; i < groupedCourses.length; i++){*/
             for(var i = 0; i < 7; i++){
                 if(groupedCourses[i] !== null && groupedCourses[i] !== undefined && groupedCourses[i].length > 0){
                     ++howMany;
@@ -184,7 +184,6 @@ angular.module('betterTimetable')
         }
 
         return {
-            getTemplate : _getTemplate,
             setTimetableGrid : _setTimetableGrid,
             isEmpty : _isEmpty,
             selectProperRow : _selectProperRow

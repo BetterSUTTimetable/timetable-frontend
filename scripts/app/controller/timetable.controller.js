@@ -19,12 +19,14 @@ angular.module('betterTimetable')
             var courses = CourseSorterSrv.groupAndSort(courses);
             CourseTemplateSrv.setTimetableGrid(courses);
 
-            for(var i = 0; i < courses.length; i++){
+            for(var i = 0; i < courses.length; i++){ //days
 
-                for(var j = 0; j < courses[i].length; j++){
+                for(var j = 0; j < courses[i].length; j++){ //courses
 
                     if(!CourseTemplateSrv.isEmpty(courses[i][j])) {
-                        CourseTemplateSrv.selectProperRow(courses[i][j], i);
+
+                        var lastWithinDay = j === (courses[i].length - 1);
+                        CourseTemplateSrv.selectProperRow(courses[i][j], i, lastWithinDay);
                     }
                 }
             }

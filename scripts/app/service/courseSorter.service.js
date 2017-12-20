@@ -2,26 +2,12 @@
 angular.module('betterTimetable')
     .factory('CourseSorterSrv', function(DataTimeSrv) {
 
-        var _getEmptyStructure = function(){
-            /*return [
-                0 : [], //monday
-                1 : [],
-                2 : [],
-                3 : [],
-                4 : [],
-                5 : [],
-                6 : []
-            ]*/
-
-            return [];
-        }
-
         var _groupAndSort = function (data) {
 
             if(data === undefined || data === null || data.length === 0){
                 return;
             }
-            var courses = _getEmptyStructure();
+            var courses = [];
 
             for (var i = 0; i < data.length; i++){
                 var processingCourse = data[i];
