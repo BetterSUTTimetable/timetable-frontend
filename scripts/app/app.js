@@ -8,14 +8,14 @@ angular
     'ngSanitize',
     'ngTouch',
     'LocalStorageModule', 
-    'angularTreeview'
+    'angularTreeview',
+    'ui.bootstrap'
   ])
     .run(function($rootScope, localStorageService){
         $rootScope.url = "http://localhost:8080";
-        
+
         $rootScope.isAuthenticated = function () {
             var isAuthenticated = localStorageService.get("isAuthenticated");
-            //console.log(isAuthenticated);
             return isAuthenticated
         }
     })

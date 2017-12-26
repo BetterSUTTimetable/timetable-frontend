@@ -1,7 +1,8 @@
 
 angular.module('betterTimetable')
-    .factory('CourseTemplateSrv', function(UISrv) {
+    .factory('CourseTemplateSrv', function(UISrv, $compile) {
 
+        var _maxSubstring = 13;
         var _dayName ={
                 0 : "Poniedziałek",
                 1 : "Wtorek",
@@ -44,7 +45,7 @@ angular.module('betterTimetable')
 
                 //ADD HEADER
                 var header = _getHeader(i);
-                column.append("<div class='row margin-top-10 center' >" + header + "</div>");
+                column.append("<div class='row margin-top-10 center' ><b>" + header + "</b></div>");
 
                 //ADD EMPTY CELL
                 for(var j = 0; j < quarterOfHourWithinDay; j++){
@@ -55,7 +56,7 @@ angular.module('betterTimetable')
 
         }
 
-        var _selectProperRow = function(singleCourse, dayNumber, lastWithinDay){
+        var _selectProperRow = function(singleCourse, dayNumber, lastWithinDay, scope){
             if(singleCourse === undefined || singleCourse === null){
                 return;
             }
@@ -81,15 +82,16 @@ angular.module('betterTimetable')
 
             for(var i = offset; i < offset + howManyRowsToSelect; i++){
                 if(i === offset + 1){
-                    _setHeader(dayRows[i], singleCourse);
+                    _setHeader(dayRows[i], singleCourse, scope);
                 } else if (i === offset + 2) {
-                    _setHours(dayRows[i], singleCourse, beginCourseDate);
+                    _setHours(dayRows[i], singleCourse, beginCourseDate, scope);
                 } else if (i === offset + 3) {
-                    _setRoom(dayRows[i], singleCourse);
-                } else if (i === offset + howManyRowsToSelect - 1) {
-                    _setLecturers(dayRows[i], singleCourse);
+                    _setRoom(dayRows[i], singleCourse, scope);
+                } else if (i === offset + howManyRowsToSelect - 2) { //-1
+                    _setLecturers(dayRows[i], singleCourse, scope);
                 } else {
-                    _fillCourse(dayRows[i], singleCourse);
+                    var addClass = _getAdditionalClass(i, offset, howManyRowsToSelect);
+                    _fillCourse(dayRows[i], singleCourse, addClass, scope);
                 }
             }
 
@@ -102,35 +104,59 @@ angular.module('betterTimetable')
             }
         }
 
-        var _fillCourse = function(processingRow, course){
-            var color = UISrv.getColor({courseType : course.courseType});
-            $(processingRow).empty(); //reset cell
-            $(processingRow).attr("class", "row timetable reset-margin " + color);
-            $(processingRow).append("</br>");
+        var _getAdditionalClass = function (i, offset, howManyRowsToSelect){
+            var addClass = '';
+            if(i === offset){
+                addClass = 'border-top';
+            } else if(i === offset + howManyRowsToSelect - 1) {
+                addClass = 'border-bottom';
+            }
+
+            return addClass;
         }
 
-        var _setHeader = function(processingRow, course){
+        var _fillCourse = function(processingRow, course, addClass, scope){
             var color = UISrv.getColor({courseType : course.courseType});
             $(processingRow).empty(); //reset cell
-            $(processingRow).attr("class", "row timetable reset-margin " + color);
-            $(processingRow).append("<p class='center reset-margin'>" + course.name.shortName+ "</p>");
+            $(processingRow).attr("class", "row timetable reset-margin course " + color + " " + addClass);
+
+            var element = "<span ng-click='getDetails(" + JSON.stringify(course) + ")'><p class='center reset-margin transparent-text'>" + "&nbsp" + "</p></span>";
+            var compiledElement = $compile(element)(scope);
+            $(processingRow).append(compiledElement);
         }
 
-        var _setHours = function(processingRow, course, beginCourseDate){
+        var _setHeader = function(processingRow, course, scope){
             var color = UISrv.getColor({courseType : course.courseType});
             $(processingRow).empty(); //reset cell
-            $(processingRow).attr("class", "row timetable reset-margin " + color);
+            $(processingRow).attr("class", "row timetable reset-margin course " + color);
+
+            if(_isEmptyString(course.name.shortName)){
+                var element = "<p class='center reset-margin transparent-text'>" + "&nbsp" + "</p>";
+            } else {
+                var element = "<p class='center reset-margin'><span ng-click='getDetails(" + JSON.stringify(course) + ")'>" + _getMaxSubstring(course.name.shortName)+ "</span></p>";
+            }
+            var compiledElement = $compile(element)(scope);
+            $(processingRow).append(compiledElement);
+        }
+
+        var _setHours = function(processingRow, course, beginCourseDate, scope){
+            var color = UISrv.getColor({courseType : course.courseType});
+            $(processingRow).empty(); //reset cell
+            $(processingRow).attr("class", "row timetable reset-margin course " + color);
             var startTxt = beginCourseDate.getHours() + ":" + (beginCourseDate.getMinutes() === 0 ? "00" : beginCourseDate.getMinutes());
             var end = new Date(beginCourseDate);
             end.setTime(beginCourseDate.getTime() + (course.duration.seconds * 1000));
             var endTxt = end.getHours() + ":" + (end.getMinutes() === 0 ? "00" : end.getMinutes());
-            $(processingRow).append("<p class='center reset-margin'>" + startTxt + " - " + endTxt + "</p>");
+
+            var element = "<p class='center reset-margin'><span ng-click='getDetails(" + JSON.stringify(course) + ")'>" + startTxt + " - " + endTxt + "</span></p>";
+            var compiledElement = $compile(element)(scope);
+            $(processingRow).append(compiledElement);
         }
 
-        var _setRoom = function(processingRow, course){
+        var _setRoom = function(processingRow, course, scope){
             var color = UISrv.getColor({courseType : course.courseType});
             $(processingRow).empty(); //reset cell
-            $(processingRow).attr("class", "row timetable reset-margin " + color);
+            $(processingRow).attr("class", "row timetable reset-margin course " + color);
 
             var rooms = "";
             course.classrooms.forEach(function(currentValue, index){
@@ -141,14 +167,22 @@ angular.module('betterTimetable')
                     rooms += currentValue.room;
                 }
             })
-            $(processingRow).append("<p class='center reset-margin'>" + rooms + "</p>");
+
+            if(_isEmptyString(rooms)){
+                var element = "<p class='center reset-margin transparent-text'><span ng-click='getDetails(" + JSON.stringify(course) +")'>" + "&nbsp" + "</span></p>";
+            } else {
+                var element = "<p class='center reset-margin'><span ng-click='getDetails(" + JSON.stringify(course) + ")'>" + _getMaxSubstring(rooms) + "</span></p>";
+            }
+            var compiledElement = $compile(element)(scope);
+            $(processingRow).append(compiledElement);
+
         }
 
 
-        var _setLecturers = function(processingRow, course){
+        var _setLecturers = function(processingRow, course, scope){
             var color = UISrv.getColor({courseType : course.courseType});
             $(processingRow).empty(); //reset cell
-            $(processingRow).attr("class", "row timetable reset-margin " + color);
+            $(processingRow).attr("class", "row timetable reset-margin course " + color);
 
             var lecturers = "";
             course.lecturers.forEach(function(currentValue, index){
@@ -159,7 +193,15 @@ angular.module('betterTimetable')
                     lecturers += currentValue.shortName;
                 }
             })
-            $(processingRow).append("<p class='center reset-margin'>" + lecturers + "</p></br>");
+
+            if(_isEmptyString(lecturers)){
+                var element = "<p class='center reset-margin transparent-text'><span ng-click='getDetails(" + JSON.stringify(course) +")'>" + "&nbsp" + "</span></p>";
+            } else {
+                var element = "<p class='center reset-margin'><span ng-click='getDetails(" + JSON.stringify(course) + ")'>" + _getMaxSubstring(lecturers) + "</span></p>";
+            }
+
+            var compiledElement = $compile(element)(scope);
+            $(processingRow).append(compiledElement);
         }
 
 
@@ -169,6 +211,11 @@ angular.module('betterTimetable')
             }
 
             return false;
+        }
+
+
+        var _isEmptyString = function (string) {
+            return (string.length === 0 || !string.trim());
         }
 
         var _howManyNotEmpty = function (groupedCourses) {
@@ -181,6 +228,10 @@ angular.module('betterTimetable')
             }
 
             return howMany;
+        }
+
+        var _getMaxSubstring = function(string){
+            return string.substring(0, _maxSubstring);
         }
 
         return {

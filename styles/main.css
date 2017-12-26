@@ -28,6 +28,16 @@ main {
     border: solid 1px gainsboro;
 }
 
+.course {
+    border: 1px solid transparent;
+    border-right-color: gainsboro;
+    border-left-color: gainsboro;
+    cursor: pointer;
+}
+.transparent-text {
+    color: transparent;
+}
+
 #legend{
     margin: 10px 0px;
 }
@@ -40,3 +50,17 @@ main {
 .margin-top-10{
     margin-top: 10px;
 }
+
+.border-top{
+    border-top: 1px solid gainsboro;
+}
+
+.border-bottom {
+    border-bottom: 1px solid gainsboro;
+}
+
+.modal{
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+

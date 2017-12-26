@@ -25,7 +25,7 @@
 (function ( angular ) {
 	'use strict';
 
-	angular.module( 'angularTreeview', [] ).directive( 'treeModel', ['$compile', function( $compile ) {
+	angular.module( 'angularTreeview', [] ).directive( 'treeModel', ['$compile', '$location', function( $compile, $location ) {
 		return {
 			restrict: 'A',
 			link: function ( scope, element, attrs ) {
@@ -86,6 +86,8 @@
 
 							//set currentNode
 							scope[treeId].currentNode = selectedNode;
+
+							$location.url("/timetable/" + selectedNode.id);
 						};
 					}
 

@@ -6,7 +6,9 @@ angular.module('betterTimetable')
             'Exercises': "amber",
             'Laboratory': "light-green",
             'Lecture': "red",
-            'Unknown': "blue"
+            'Unknown': "blue",
+            'Project' : "pink",
+            'Seminar' : "deep-purple lighten-1"
         }
 
         var _getColor = function(params){
