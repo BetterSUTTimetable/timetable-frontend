@@ -6,15 +6,7 @@ angular.module('betterTimetable')
                                            CourseSorterSrv, CourseTemplateSrv, $uibModal) {
 
         $scope.errorOccurs = false;
-
-        var week = DataTimeSrv.getWeekInterval();
-
-        TimetableRsc.getCourse({id: $routeParams.id, from : week.begining, to :  week.end}, function(data){
-            _processCourses(data);
-        }, function (error) {
-            console.log(error);
-            $scope.errorOccurs = true;
-        });
+        var _weekOffset = 0;
 
         var _processCourses = function(courses){
             var courses = CourseSorterSrv.groupAndSort(courses);
@@ -37,6 +29,18 @@ angular.module('betterTimetable')
             }
         }
 
+        var _getTimetable = function(){
+            var week = DataTimeSrv.getWeekInterval(_weekOffset);
+
+            TimetableRsc.getCourse({id: $routeParams.id, from : week.begining, to :  week.end}, function(data){
+                $scope.currentWeek = week.begining.getDate() + "." + (week.begining.getMonth() + 1 ) + " - "+  week.end.getDate() + "." + (week.end.getMonth() + 1 );
+                _processCourses(data);
+            }, function (error) {
+                console.log(error);
+                $scope.errorOccurs = true;
+            });
+        }
+
         $scope.getDetails = function (selectedCourse) {
 
             var modalInstance = $uibModal.open({
@@ -57,4 +61,16 @@ angular.module('betterTimetable')
                 console.log('Modal dismissed at: ' + new Date());
             });
         }
+
+        $scope.getNextWeek = function () {
+            _weekOffset += 1;
+            _getTimetable();
+        }
+
+        $scope.getPreviousWeek = function () {
+            _weekOffset -= 1;
+            _getTimetable();
+        }
+
+        _getTimetable();
     });

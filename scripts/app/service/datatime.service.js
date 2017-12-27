@@ -2,6 +2,12 @@
 angular.module('betterTimetable')
     .factory('DataTimeSrv', function() {
 
+        Date.prototype.addDays = function(days) {
+            var dat = new Date(this.valueOf());
+            dat.setDate(dat.getDate() + days);
+            return dat;
+        }
+
         var _getBeginingOfWeek = function(){
             var today = new Date();
             //0 - SUNDAY
@@ -21,11 +27,16 @@ angular.module('betterTimetable')
             return begining
         }
 
-        var _getWeekInternal = function(){
+        var _getWeekInternal = function(weekOffset){
             var begining =  _getBeginingOfWeek();
             var end = new Date();
             end.setDate(begining.getDate() + 6);
             end.setHours(23, 59, 59, 0 );
+
+            if(weekOffset !== null && weekOffset !== undefined){
+                begining = begining.addDays(weekOffset * 7)
+                end = end.addDays(weekOffset * 7);
+            }
             return {
                 begining : begining,
                 end : end

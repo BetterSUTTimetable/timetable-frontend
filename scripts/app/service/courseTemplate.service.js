@@ -19,6 +19,8 @@ angular.module('betterTimetable')
 
         var _setTimetableGrid = function(groupedCourses){
             var timetable = $("#timetable");
+            timetable.empty();
+
             var quarterOfHourWithinDay = 52;
             var howManyNotEmpty = _howManyNotEmpty(groupedCourses);
 
