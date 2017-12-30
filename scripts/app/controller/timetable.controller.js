@@ -7,6 +7,7 @@ angular.module('betterTimetable')
 
         $scope.errorOccurs = false;
         var _weekOffset = 0;
+        var courses = [];
 
         var _processCourses = function(courses){
             var courses = CourseSorterSrv.groupAndSort(courses);
@@ -23,7 +24,8 @@ angular.module('betterTimetable')
                     if(!CourseTemplateSrv.isEmpty(courses[i][j])) {
 
                         var lastWithinDay = j === (courses[i].length - 1);
-                        CourseTemplateSrv.selectProperRow(courses[i][j], i, lastWithinDay, $scope);
+                        var processingCourse = courses[i][j];
+                        CourseTemplateSrv.selectProperRow(processingCourse, i, lastWithinDay, $scope);
                     }
                 }
             }
@@ -34,7 +36,8 @@ angular.module('betterTimetable')
 
             TimetableRsc.getCourse({id: $routeParams.id, from : week.begining, to :  week.end}, function(data){
                 $scope.currentWeek = week.begining.getDate() + "." + (week.begining.getMonth() + 1 ) + " - "+  week.end.getDate() + "." + (week.end.getMonth() + 1 );
-                _processCourses(data);
+                courses = data;
+                _processCourses(courses);
             }, function (error) {
                 console.log(error);
                 $scope.errorOccurs = true;
@@ -60,6 +63,16 @@ angular.module('betterTimetable')
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
             });
+        }
+
+        $scope.hide = function(selectedCourse){
+            var id = selectedCourse.id;
+            courses.forEach(function (course) {
+                if(course.id === id){
+                    course.hidden = true;
+                }
+            });
+            _processCourses(courses);
         }
 
         $scope.getNextWeek = function () {
