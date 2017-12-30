@@ -3,7 +3,7 @@ angular.module('betterTimetable')
     .factory('CourseTemplateSrv', function(UISrv, $compile) {
 
         var _maxSubstring = 13;
-        var _dayName ={
+        var _dayName = {
                 0 : "Poniedziałek",
                 1 : "Wtorek",
                 2 : "Środa",
@@ -21,7 +21,7 @@ angular.module('betterTimetable')
             var timetable = $("#timetable");
             timetable.empty();
 
-            var quarterOfHourWithinDay = 52;
+            var quarterOfHourWithinDay = 56;
             var howManyNotEmpty = _howManyNotEmpty(groupedCourses);
 
             var unusableSpace = 12 % howManyNotEmpty ;
@@ -70,7 +70,7 @@ angular.module('betterTimetable')
             beginCourseDate.setSeconds(begin + 3600);
 
             var beginDayDate = new Date(beginCourseDate);
-            beginDayDate.setHours(8, 0, 0, 0);
+            beginDayDate.setHours(7, 0, 0, 0);
 
             var diff = beginCourseDate - beginDayDate; //in mili
 
@@ -93,7 +93,7 @@ angular.module('betterTimetable')
                     _setHours(dayRows[i], singleCourse, beginCourseDate, scope);
                 } else if (i === offset + 3) {
                     _setRoom(dayRows[i], singleCourse, scope);
-                } else if (i === offset + howManyRowsToSelect - 2) { //-1
+                } else if (i === offset + howManyRowsToSelect - 2) {
                     _setLecturers(dayRows[i], singleCourse, scope);
                 } else {
                     var addClass = _getAdditionalClass(i, offset, howManyRowsToSelect);
@@ -101,8 +101,6 @@ angular.module('betterTimetable')
                 }
 
                 if(collision){
-                    //insert switch button
-                    //var addClass = _getAdditionalClass(i, offset, howManyRowsToSelect);
                     var addClass = "border-top";
                     _setSwitchButton(dayRows[offset], singleCourse, scope, addClass);
                 }
@@ -110,7 +108,7 @@ angular.module('betterTimetable')
 
             if(lastWithinDay) { //we would like to remove empty, unused space after this course
                 var firstAfter = offset + howManyRowsToSelect;
-                var quarterOfHourWithinDay = 52;
+                var quarterOfHourWithinDay = 56;
                 for(var k = firstAfter; k < quarterOfHourWithinDay; k++){
                     $(dayRows[k]).remove();
                 }
@@ -221,7 +219,7 @@ angular.module('betterTimetable')
             $(processingRow).empty(); //reset cell
             $(processingRow).attr("class", "row timetable reset-margin course " + color + " " + addClass);
 
-            var element = "<p class='reset-margin right'><a href='' ng-click='hide(" + JSON.stringify(course) +")'><i class='material-icons'>arrow_drop_down</i></a></p>";
+            var element = "<p class='reset-margin right'><a href='' ng-click='hide(" + JSON.stringify(course) +")'><i class='material-icons switch-course-button'>arrow_drop_down</i></a></p>";
             var compiledElement = $compile(element)(scope);
             $(processingRow).append(compiledElement);
         }

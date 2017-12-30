@@ -23,8 +23,8 @@ angular.module('betterTimetable')
 
                     if(!CourseTemplateSrv.isEmpty(courses[i][j])) {
 
-                        var lastWithinDay = j === (courses[i].length - 1);
                         var processingCourse = courses[i][j];
+                        var lastWithinDay = _isLastWithinDay(courses[i], j, processingCourse);
                         CourseTemplateSrv.selectProperRow(processingCourse, i, lastWithinDay, $scope);
                     }
                 }
@@ -41,7 +41,22 @@ angular.module('betterTimetable')
             }, function (error) {
                 console.log(error);
                 $scope.errorOccurs = true;
+                Materialize.toast('We couldn\'t load this timetable. Please try again', 4000);
             });
+        }
+        
+        var _isLastWithinDay = function (dayCourses, index, processingCourse) {
+            var processingCourseEndTime = processingCourse.beginTime.epochSecond + processingCourse.duration.seconds;
+            var isLast = true;
+
+            dayCourses.forEach(function (course) {
+                var endTime = course.beginTime.epochSecond + course.duration.seconds;
+                if(endTime > processingCourseEndTime && !course.hidden){
+                    isLast = false;
+                }
+            });
+
+            return isLast;
         }
 
         $scope.getDetails = function (selectedCourse) {
@@ -75,6 +90,13 @@ angular.module('betterTimetable')
             _processCourses(courses);
         }
 
+        $scope.showAll = function(){
+            courses.forEach(function (course) {
+                course.hidden = false;
+            });
+            _processCourses(courses);
+        }
+
         $scope.getNextWeek = function () {
             _weekOffset += 1;
             _getTimetable();
@@ -83,6 +105,10 @@ angular.module('betterTimetable')
         $scope.getPreviousWeek = function () {
             _weekOffset -= 1;
             _getTimetable();
+        }
+
+        $scope.addAll = function () {
+            Materialize.toast('Function not implemented', 4000);
         }
 
         _getTimetable();

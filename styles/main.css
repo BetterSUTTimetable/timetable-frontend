@@ -68,7 +68,12 @@ main {
     padding: 5px;
 }
 
-.material-icons{
+.material-icons.switch-course-button{
     font-size: 14px !important;
+}
+
+.btn {
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
 }
 
