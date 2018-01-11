@@ -2,7 +2,7 @@
 
 
 angular.module('betterTimetable')
-    .controller('LoginCtrl', function ($scope, AuthRsc, $location, localStorageService) {
+    .controller('LoginCtrl', function ($scope, AuthRsc, AuthSrv) {
 
         $scope.user = {
             rememberMe : true
@@ -14,8 +14,7 @@ angular.module('betterTimetable')
                 password: $scope.user.password
             }
             AuthRsc.login(credentials, function(){
-                localStorageService.set('isAuthenticated', true);
-                $location.url("/");
+                AuthSrv.isAuthenticated();
             }, function(){
                 Materialize.toast('Error! Try again.', 4000);
                 return;

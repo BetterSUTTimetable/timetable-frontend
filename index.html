@@ -8,12 +8,10 @@
     <link rel="icon" href="favicon.ico">
     <title>Better timetable</title>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">  
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="bower_components/materialize/dist/css/materialize.css" />
     <link rel="stylesheet" href="styles/angular.treeview.css">   
-    
-    <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />-->
+
     <link rel="stylesheet" href="styles/main.css"> <!--Custom css script-->
   </head>
   
@@ -26,9 +24,10 @@
       <div class="nav-wrapper teal lighten-2">
         <a href="#" data-activates="slide-out" id="menu"><i class="material-icons">menu</i></a>
         <ul class="right">
-          <li><a ng-href="/#!/login" ng-if="!$root.isAuthenticated()">Log in</a></li>
-          <li><a ng-href="/#!/custom" ng-if="$root.isAuthenticated()">My timetable</a></li>
-          <li><a href="" ng-if="$root.isAuthenticated()">Log out</a></li>
+          <li><a ng-href="/#!/login" ng-if="!$root.isAuthenticated">Log in</a></li>
+          <li><a ng-href="/#!/custom" ng-if="$root.isAuthenticated">My timetable</a></li>
+          <li><a ng-href="/#!/custom" ng-if="$root.isAuthenticated">Filters</a></li>
+          <li><a ng-click="$root.logout()" ng-if="$root.isAuthenticated">Log out</a></li>
         </ul>
       </div>
     </nav>
@@ -67,7 +66,6 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="bower_components/materialize/dist/js/materialize.js"></script>
     <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
     <script src="scripts/treeView/angular.treeview.js"></script>
@@ -75,6 +73,7 @@
 
     <script src="scripts/app/app.js"></script>
     <script src="scripts/app/auth/auth.interceptor.js"></script>
+    <script src="scripts/app/auth/auth.service.js"></script>
 
 
     <script src="scripts/app/config/main.route.js"></script>
@@ -90,12 +89,15 @@
     <script src="scripts/app/controller/treeView.controller.js"></script>
     <script src="scripts/app/controller/timetable.controller.js"></script>
     <script src="scripts/app/controller/courseDetails.controller.js"></script>
+    <script src="scripts/app/controller/filter.controller.js"></script>
 
     <script src="scripts/app/service/main.service.js"></script>
     <script src="scripts/app/service/datatime.service.js"></script>
     <script src="scripts/app/service/courseSorter.service.js"></script>
     <script src="scripts/app/service/courseTemplate.service.js"></script>
     <script src="scripts/app/service/ui.service.js"></script>
+    <script src="scripts/app/service/coursesProcessor.service.js"></script>
+    <script src="scripts/app/service/courseDetailsService.service.js"></script>
 
     <script src="scripts/app/component/main.resource.js"></script>
     <script src="scripts/app/component/category.resource.js"></script>
@@ -104,8 +106,8 @@
     
     <script src="scripts/app/component/register.resource.js"></script>
     <script src="scripts/app/component/auth.resource.js"></script>
-    <script src="scripts/app/component/custom.resource.js"></script>
     <script src="scripts/app/component/timetable.resource.js"></script>
+    <script src="scripts/app/component/filter.resource.js"></script>
 
     <script>
         $( document ).ready(function(){

@@ -59,11 +59,6 @@ main {
     border-bottom: 1px solid gainsboro;
 }
 
-.modal{
-    background-color: transparent !important;
-    box-shadow: none !important;
-}
-
 .padding5{
     padding: 5px;
 }
@@ -75,5 +70,23 @@ main {
 .btn {
     padding-right: 1rem !important;
     padding-left: 1rem !important;
+}
+
+.chips {
+    border: none;
+    border-bottom: none;
+}
+
+.btn-long {
+    width: 100% !important;
+}
+
+.modal{
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+}
+
+.icon-white{
+    color: white;
 }
 

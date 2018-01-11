@@ -18,10 +18,7 @@ angular.module('betterTimetable')
                     courses[europeanDayNumber] = [];
                 }
                 courses[europeanDayNumber].push(processingCourse);
-                //console.log(dayNumber);
             }
-
-            console.log(courses);
             return courses;
 
         }

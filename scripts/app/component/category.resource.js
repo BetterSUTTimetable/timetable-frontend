@@ -1,5 +1,5 @@
 
-angular.module('betterTimetable').factory('CategoryRsc', function($resource, $rootScope) {
-  return $resource($rootScope.url + '/category/:id', {id: "@id"}, {
+angular.module('betterTimetable').factory('CategoryRsc', function($resource, URL) {
+  return $resource(URL + '/category/:id', {id: "@id"}, {
     });
 });  

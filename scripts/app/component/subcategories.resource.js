@@ -1,3 +1,3 @@
-angular.module('betterTimetable').factory('SubcategoriesRsc', function($resource, $rootScope) {
-    return $resource($rootScope.url + '/category/:id/subcategories', { id: '@id' })
+angular.module('betterTimetable').factory('SubcategoriesRsc', function($resource, URL) {
+    return $resource(URL + '/category/:id/subcategories', { id: '@id' })
   });

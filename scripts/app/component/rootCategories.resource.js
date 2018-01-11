@@ -1,4 +1,4 @@
-angular.module('betterTimetable').factory('RootCategoriesRsc', function($resource, $rootScope) {
-    return $resource($rootScope.url + '/categories', {
+angular.module('betterTimetable').factory('RootCategoriesRsc', function($resource, URL) {
+    return $resource(URL + '/categories', {
     });
   });

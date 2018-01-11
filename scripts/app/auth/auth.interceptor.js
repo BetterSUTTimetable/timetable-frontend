@@ -1,16 +1,14 @@
 angular.module('betterTimetable')
     .factory('authExpiredInterceptor', function ($rootScope, $q, $injector, localStorageService, $location) {
-        return {
-            responseError: function (response) {
-                // session has expired
-                if (response.status === 401 ||  response.status === 403 || response.status === 419) {
-                    if(localStorageService.get('isAuthenticated')){
+            return {
+                'responseError': function (response) {
+                    // session has expired
+                    if (response.status === 401 ||  response.status === 403 || response.status === 419) {
                         localStorageService.remove('isAuthenticated');
-                        Materialize.toast('Sorry, your session timed out', 4000);
-                        $location.path("/login");
+                        $rootScope.$broadcast('notAuthenticated'); //broadcast event
+                        $location.url("/login");
                     }
+                    return $q.reject(response);
                 }
-                return $q.reject(response);
-            }
-        };
+            };
     });
