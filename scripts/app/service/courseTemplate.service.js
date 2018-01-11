@@ -134,6 +134,7 @@ angular.module('betterTimetable')
             var element = "<span ng-click='getDetails(" + JSON.stringify(course) + ")'><p class='center reset-margin transparent-text'>" + "&nbsp" + "</p></span>";
             var compiledElement = $compile(element)(scope);
             $(processingRow).append(compiledElement);
+            $(processingRow).attr("ng-click", 'getDetails(' + JSON.stringify(course) + ')');
         }
 
         var _setHeader = function(processingRow, course, scope){
@@ -142,9 +143,9 @@ angular.module('betterTimetable')
             $(processingRow).attr("class", "row timetable reset-margin course " + color);
 
             if(_isEmptyString(course.name.shortName)){
-                var element = "<p class='center reset-margin transparent-text'>" + "&nbsp" + "</p>";
+                var element = "<p ng-click='getDetails(" + JSON.stringify(course) + ")' class='center reset-margin transparent-text'>" + "&nbsp" + "</p>";
             } else {
-                var element = "<p class='center reset-margin'><span ng-click='getDetails(" + JSON.stringify(course) + ")'>" + _getMaxSubstring(course.name.shortName)+ "</span></p>";
+                var element = "<p ng-click='getDetails(" + JSON.stringify(course) + ")' class='center reset-margin'><span>" + _getMaxSubstring(course.name.shortName)+ "</span></p>";
             }
             var compiledElement = $compile(element)(scope);
             $(processingRow).append(compiledElement);
@@ -159,7 +160,7 @@ angular.module('betterTimetable')
             end.setTime(beginCourseDate.getTime() + (course.duration.seconds * 1000));
             var endTxt = end.getHours() + ":" + (end.getMinutes() === 0 ? "00" : end.getMinutes());
 
-            var element = "<p class='center reset-margin'><span ng-click='getDetails(" + JSON.stringify(course) + ")'>" + startTxt + " - " + endTxt + "</span></p>";
+            var element = "<p ng-click='getDetails(" + JSON.stringify(course) + ")' class='center reset-margin'><span>" + startTxt + " - " + endTxt + "</span></p>";
             var compiledElement = $compile(element)(scope);
             $(processingRow).append(compiledElement);
         }
@@ -180,9 +181,9 @@ angular.module('betterTimetable')
             })
 
             if(_isEmptyString(rooms)){
-                var element = "<p class='center reset-margin transparent-text'><span ng-click='getDetails(" + JSON.stringify(course) +")'>" + "&nbsp" + "</span></p>";
+                var element = "<p ng-click='getDetails(" + JSON.stringify(course) + ")' class='center reset-margin transparent-text'><span)'>" + "&nbsp" + "</span></p>";
             } else {
-                var element = "<p class='center reset-margin'><span ng-click='getDetails(" + JSON.stringify(course) + ")'>" + _getMaxSubstring(rooms) + "</span></p>";
+                var element = "<p ng-click='getDetails(" + JSON.stringify(course) + ")' class='center reset-margin'><span>" + _getMaxSubstring(rooms) + "</span></p>";
             }
             var compiledElement = $compile(element)(scope);
             $(processingRow).append(compiledElement);
@@ -205,9 +206,9 @@ angular.module('betterTimetable')
             })
 
             if(_isEmptyString(lecturers)){
-                var element = "<p class='center reset-margin transparent-text'><span ng-click='getDetails(" + JSON.stringify(course) +")'>" + "&nbsp" + "</span></p>";
+                var element = "<p ng-click='getDetails(" + JSON.stringify(course) + ")' class='center reset-margin transparent-text'><span>" + "&nbsp" + "</span></p>";
             } else {
-                var element = "<p class='center reset-margin'><span ng-click='getDetails(" + JSON.stringify(course) + ")'>" + _getMaxSubstring(lecturers) + "</span></p>";
+                var element = "<p ng-click='getDetails(" + JSON.stringify(course) + ")' class='center reset-margin'><span>" + _getMaxSubstring(lecturers) + "</span></p>";
             }
 
             var compiledElement = $compile(element)(scope);

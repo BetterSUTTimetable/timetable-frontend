@@ -85,3 +85,9 @@ main {
 .btn-long {
     width: 100% !important;
 }
+
+.modal-dialog {
+    position: relative !important;
+    width: auto !important;
+    margin: 0 !important;
+}
