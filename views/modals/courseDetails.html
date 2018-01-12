@@ -1,20 +1,13 @@
-<div>
-    <div class="modal-header">
-        <h5 class="modal-title">{{course.name.fullName}}</h5>
-    </div>
-    <div class="modal-body">
-        <div class="row">
-            <p><span ng-class="getLabelColor()" class="new badge" data-badge-caption="{{getLabel()}}">&nbsp;</span></p>
-            <p>Czas: {{getHours()}}</p>
-            <p>Miejsce: {{getRooms()}}</p>
-            <p>Prowadzący: {{getLecturers()}}</p>
-        </div>
+<div id="courseDetailsModal" class="modal" ng-controller="CourseDetailsCtrl">
+    <div class="modal-content">
+        <h4 class="modal-title">{{course.name.fullName}}</h4>
+        <p><span ng-class="getLabelColor()" class="new badge" data-badge-caption="{{getLabel()}}">&nbsp;</span></p>
+        <p>Czas: {{getHours()}}</p>
+        <p>Miejsce: {{getRooms()}}</p>
+        <p>Prowadzący: {{getLecturers()}}</p>
     </div>
     <div class="modal-footer">
-        <div class="row">
-            <div class="col s12 m12 l12">
-                <button type="button" class="btn btn-default" ng-click="cancel()">anuluj</button>
-            </div>
-        </div>
+        <button type="button" class="btn btn-default btn-long" ng-click="cancel()">anuluj</button>
     </div>
 </div>
+

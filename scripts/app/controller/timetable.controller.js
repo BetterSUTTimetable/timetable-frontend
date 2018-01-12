@@ -3,7 +3,7 @@
 
 angular.module('betterTimetable')
     .controller('TimetableCtrl', function ($scope, CustomRsc, TimetableRsc, $routeParams, DataTimeSrv,
-                                           CourseSorterSrv, CourseTemplateSrv, $uibModal, CourseProcessorSrv) {
+                                           CourseSorterSrv, CourseTemplateSrv, CourseProcessorSrv, CourseDetailsSrv) {
 
         $scope.errorOccurs = false;
         var _weekOffset = 0;
@@ -24,24 +24,7 @@ angular.module('betterTimetable')
         }
 
         $scope.getDetails = function (selectedCourse) {
-
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'views/modals/courseDetails.html',
-                controller: 'CourseDetailsCtrl',
-                size: 'modal-lg',
-                resolve: {
-                    course: function () {
-                        return selectedCourse;
-                    }
-                }
-            });
-
-            modalInstance.result.then(function (course) {
-                console.log(course);
-            }, function () {
-                console.log('Modal dismissed at: ' + new Date());
-            });
+            CourseDetailsSrv.displayDetails(selectedCourse, $scope);
         }
 
         $scope.hide = function (selectedCourse) {

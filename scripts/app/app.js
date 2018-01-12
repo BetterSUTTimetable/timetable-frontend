@@ -8,8 +8,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'LocalStorageModule', 
-    'angularTreeview',
-    'ui.bootstrap'
+    'angularTreeview'
   ])
     .run(function($rootScope, localStorageService){
         $rootScope.url = "http://localhost:8080";

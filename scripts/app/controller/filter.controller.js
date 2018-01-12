@@ -1,5 +1,5 @@
 angular.module('betterTimetable')
-    .controller('FilterCtrl', function ($uibModalInstance, course, $scope, UISrv, TimetableRsc, FilterRsc) {
+    .controller('FilterCtrl', function (CourseDetailsSrv, $scope, UISrv, TimetableRsc, FilterRsc) {
 
         var _labels = {
             'Exercises': "Ćwiczenia",
@@ -9,7 +9,7 @@ angular.module('betterTimetable')
             'Project' : "Projekt",
             'Seminar' : "Seminarium"
         }
-        $scope.course = course;
+        $scope.course = CourseDetailsSrv.get();
 
         $scope.getLabel = function(){
             return _labels[$scope.course.courseType];
@@ -29,7 +29,7 @@ angular.module('betterTimetable')
 
                 var startTxt = beginCourseDate.getHours() + ":" + (beginCourseDate.getMinutes() === 0 ? "00" : beginCourseDate.getMinutes());
                 var end = new Date(beginCourseDate);
-                end.setTime(beginCourseDate.getTime() + (course.duration.seconds * 1000));
+                end.setTime(beginCourseDate.getTime() + ($scope.course.duration.seconds * 1000));
                 var endTxt = end.getHours() + ":" + (end.getMinutes() === 0 ? "00" : end.getMinutes());
 
                 return startTxt + " - " + endTxt;
@@ -41,7 +41,7 @@ angular.module('betterTimetable')
             if($scope.course.lecturers !== null && $scope.course.lecturers !== undefined && $scope.course.lecturers.length > 0) {
                 $scope.course.lecturers.forEach(function (currentValue, index) {
 
-                    if (index < course.lecturers.length - 1) {
+                    if (index < $scope.course.lecturers.length - 1) {
                         lecturers += currentValue.fullName + ", ";
                     } else {
                         lecturers += currentValue.fullName;
@@ -56,7 +56,7 @@ angular.module('betterTimetable')
             if($scope.course.classrooms !== null && $scope.course.classrooms !== undefined && $scope.course.classrooms.length > 0) {
                 $scope.course.classrooms.forEach(function (currentValue, index) {
 
-                    if (index < course.classrooms.length - 1) {
+                    if (index < $scope.course.classrooms.length - 1) {
                         rooms += currentValue.room + ", ";
                     } else {
                         rooms += currentValue.room;
@@ -70,7 +70,9 @@ angular.module('betterTimetable')
         var _getIntervals = function () {
             TimetableRsc.getIntervals({}, function (data) {
                 $scope.intervals = data;
-                console.log(data);
+                angular.element(document).ready(function () {
+                    $('select').material_select();
+                });
             })
         }
 
@@ -82,7 +84,7 @@ angular.module('betterTimetable')
 
             FilterRsc.addFilter(data, function () {
                 Materialize.toast('Success', 4000);
-                $uibModalInstance.close($scope.course);
+                $('#courseFilterModal').modal('close');
             }, function () {
                 Materialize.toast('Error! Try again.', 8000);
             })
@@ -90,11 +92,11 @@ angular.module('betterTimetable')
         };
 
         $scope.remove = function () {
-            $uibModalInstance.close($scope.course);
+            $('#courseFilterModal').modal('close');
         };
 
         $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
+            $('#courseFilterModal').modal('close');
         };
 
         $scope.getIntervalValue = function (index) {

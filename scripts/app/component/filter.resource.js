@@ -3,6 +3,9 @@ angular.module('betterTimetable').factory('FilterRsc', function($resource, $root
     return $resource($rootScope.url + '/filters', {}, { //only for testing purpose
         'addFilter' : {
             method: 'POST'
+        },
+        'get' : {
+            method : 'GET'
         }
     });
 });

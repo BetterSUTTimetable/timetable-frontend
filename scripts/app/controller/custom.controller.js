@@ -3,7 +3,7 @@
 
 angular.module('betterTimetable')
     .controller('CustomTimetableCtrl', function ($scope, TimetableRsc, $routeParams, DataTimeSrv,
-                                                 $uibModal, CourseProcessorSrv) {
+                                                 CourseProcessorSrv, CourseDetailsSrv) {
         var courses = [];
         var _weekOffset = 0;
         $('.chips').material_chip();
@@ -63,24 +63,7 @@ angular.module('betterTimetable')
         }
 
         $scope.getDetails = function (selectedCourse) {
-
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'views/modals/filter.html',
-                controller: 'FilterCtrl',
-                size: 'modal-lg',
-                resolve: {
-                    course: function () {
-                        return selectedCourse;
-                    }
-                }
-            });
-
-            modalInstance.result.then(function (course) {
-                console.log(course);
-            }, function () {
-                console.log('Modal dismissed at: ' + new Date());
-            });
+            CourseDetailsSrv.displayDetailsWithFilter(selectedCourse, $scope);
         }
 
 
@@ -99,7 +82,7 @@ angular.module('betterTimetable')
         $('.chips').on('click.chips-select', function(e, chip){
             var $chip = $(e.target);
 
-            if ($chip.length) {
+            if ($chip.length && $chip.hasClass('chip')) {
                 var selected = $chip.hasClass('selected');
 
                 if (!selected) {
