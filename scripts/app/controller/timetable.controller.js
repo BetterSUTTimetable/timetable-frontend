@@ -2,9 +2,9 @@
 
 
 angular.module('betterTimetable')
-    .controller('TimetableCtrl', function ($scope, CustomRsc, TimetableRsc, $routeParams, DataTimeSrv,
+    .controller('TimetableCtrl', function ($scope, TimetableRsc, $routeParams, DataTimeSrv,
                                            CourseSorterSrv, CourseTemplateSrv, CourseProcessorSrv, CourseDetailsSrv) {
-
+                                            // , CustomRsc
         $scope.errorOccurs = false;
         var _weekOffset = 0;
         var courses = [];

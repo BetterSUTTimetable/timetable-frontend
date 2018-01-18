@@ -4,8 +4,15 @@ angular.module('betterTimetable').factory('FilterRsc', function($resource, URL) 
         'addFilter' : {
             method: 'POST'
         },
-        'get' : {
-            method : 'GET'
+        'getFilters' : {
+            url: URL +'/filters',            
+            method : 'GET',
+            isArray : true            
+        },
+        'removeFilter' : {
+            url: URL + '/filter/:id',
+            id: '@id',
+            method: 'DELETE'
         }
     });
 });

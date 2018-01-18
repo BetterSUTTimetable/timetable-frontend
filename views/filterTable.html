@@ -1,0 +1,25 @@
+<h3>Twoje filtry: </h3>
+
+<table class="bordered responsive-table">
+    <thead>
+        <tr>
+            <th>Typ zajęć</th>
+            <th>Nazwa</th>
+            <th>Godziny</th>            
+            <th>Tydzień</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr ng-repeat="filter in filters">
+            <td ng-class="getColor(filter.id)" class="white-text">{{filter.courseType}}</td>
+            <td>{{filter.fullCourseName}}</td>
+            <td>{{filter.hours}}</td>            
+            <td>{{filter.week}}</td>
+            <td>
+                <button type="button" class="btn btn-default red darken-3" ng-click="remove(filter.id)">usuń</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
