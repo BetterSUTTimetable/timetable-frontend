@@ -13,7 +13,10 @@ angular.module('betterTimetable').factory('AuthSrv', function(AuthRsc, localStor
         }, function () {
             localStorageService.remove('isAuthenticated');
             $rootScope.$broadcast('notAuthenticated'); //broadcast event
-            _login();
+            var url = $location.url();
+            if(url.indexOf("timetable") === -1){
+                _login();
+            }
         });
     }
 
@@ -21,11 +24,11 @@ angular.module('betterTimetable').factory('AuthSrv', function(AuthRsc, localStor
         AuthRsc.logout({}, function(){
             localStorageService.remove('isAuthenticated');
             $rootScope.$broadcast('notAuthenticated'); //broadcast event
-            //_login();
+            _login();
         }, function () {
             localStorageService.remove('isAuthenticated');
             $rootScope.$broadcast('notAuthenticated'); //broadcast event
-            //_login();
+            _login();
         })
     }
 

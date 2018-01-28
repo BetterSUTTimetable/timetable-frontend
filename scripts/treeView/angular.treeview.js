@@ -87,7 +87,11 @@
 							//set currentNode
 							scope[treeId].currentNode = selectedNode;
 
-							$location.url("/timetable/" + selectedNode.id);
+							if(selectedNode.children === null || selectedNode.children === undefined){
+                                $location.url("/timetable/" + selectedNode.id);
+                                $('.button-collapse').sideNav('hide');
+							}
+
 						};
 					}
 

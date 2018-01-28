@@ -10,7 +10,8 @@ angular
     'LocalStorageModule', 
     'angularTreeview'
   ])
-    .constant('URL', 'http://localhost:8080')
+    /*.constant('URL', 'http://localhost:8080')*/
+    .constant('URL', 'http://192.168.0.136:8080')
     .run(function($rootScope, AuthSrv, $location){
 
         AuthSrv.isAuthenticated();

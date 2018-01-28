@@ -35,11 +35,11 @@ angular.module('betterTimetable')
                     continue;
                 }
 
-                var widthClass = "m" + dayWidth + " l" + dayWidth;
+                var widthClass = "m12"  + " l" + dayWidth;
                 var id = i;
                 var column;
                 if(i === 0 && offset !== 0){
-                    widthClass += " offset-m" + offset + " offset-l" + offset;
+                    widthClass += " offset-l" + offset;
                     column = $("<div id='" + id + "' class='col s12 " + widthClass + "'></div>");
                 } else {
                     column = $("<div id='" + id + "' class='col s12 " + widthClass + "'></div>");

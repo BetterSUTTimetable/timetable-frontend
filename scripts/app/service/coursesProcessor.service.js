@@ -6,13 +6,16 @@ angular.module('betterTimetable')
             var courses = CourseSorterSrv.groupAndSort(courses);
             CourseTemplateSrv.setTimetableGrid(courses);
 
-            for(var i = 0; i < 7; i++){ //days //courses.length
+            var theLastest = _theLatestClassWithinWeek(courses);
+            console.log(theLastest);
+
+            for(var i = 0; i < 7; i++){
 
                 if(courses[i] === null || courses[i] === undefined){
                     continue;
                 }
 
-                for(var j = 0; j < courses[i].length; j++){ //courses
+                for(var j = 0; j < courses[i].length; j++){
 
                     if(!CourseTemplateSrv.isEmpty(courses[i][j])) {
 
@@ -36,6 +39,30 @@ angular.module('betterTimetable')
             });
 
             return isLast;
+        }
+
+        var _theLatestClassWithinWeek = function(courses){
+
+            var time = 0;
+            var theLastest = undefined;
+
+            for(var i = 0; i < 7; i++){
+
+                if(courses[i] === null || courses[i] === undefined){
+                    continue;
+                }
+
+                for(var j = 0; j < courses[i].length; j++){
+
+                    var processingTime = courses[i][j].beginTime.epochSecond + courses[i][j].duration.seconds;
+                    if(processingTime > time){
+                        time = processingTime;
+                        theLastest = courses[i][j];
+                    }
+                }
+            }
+
+            return theLastest;
         }
 
         var _hide = function(selectedCourse, courses, $scope){

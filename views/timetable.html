@@ -6,11 +6,11 @@
     </div>
 </div>
 <div class="row">
-    <div class="col s6 m6 l6">
+    <div ng-class="{'col s6 m6 l6': $root.isAuthenticated, 'col s12 m12 l12' : !$root.isAuthenticated}">
         <button type="button" class="btn btn-default btn-long" ng-click="showAll()">ukryte</button>
     </div>
     <div class="col s6 m6 l6">
-        <button type="button" class="btn btn-default btn-long" ng-click="addAll()">do planu</button>
+        <button type="button" ng-if="$root.isAuthenticated" class="btn btn-default btn-long" ng-click="addAll()">do planu</button>
     </div>
 </div>
 <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
