@@ -91,7 +91,7 @@ angular.module('betterTimetable')
 
         };
 
-        $scope.remove = function () {
+        $scope.remove = function () {            
             $('#courseFilterModal').modal('close');
         };
 

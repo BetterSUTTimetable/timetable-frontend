@@ -24,10 +24,10 @@
       <div class="nav-wrapper teal lighten-2">
         <a href="#" data-activates="slide-out" id="menu"><i class="material-icons">menu</i></a>
         <ul class="right">
-          <li><a ng-href="/#!/login" ng-if="!$root.isAuthenticated">Log in</a></li>
-          <li><a ng-href="/#!/custom" ng-if="$root.isAuthenticated">My timetable</a></li>
-          <li><a ng-href="/#!/custom" ng-if="$root.isAuthenticated">Filters</a></li>
-          <li><a ng-click="$root.logout()" ng-if="$root.isAuthenticated">Log out</a></li>
+          <li><a ng-href="/#!/login" ng-if="!$root.isAuthenticated">Zaloguj</a></li>
+          <li><a ng-href="/#!/custom" ng-if="$root.isAuthenticated">Mój plan zajęć</a></li>
+          <li><a ng-href="/#!/filterTable" ng-if="$root.isAuthenticated">Filtry</a></li>
+          <li><a ng-click="$root.logout()" ng-if="$root.isAuthenticated">Wyloguj</a></li>
         </ul>
       </div>
     </nav>
@@ -36,7 +36,7 @@
         <ul id="slide-out" class="side-nav">
            <li>
             <div class="user-view">
-              <span id="text_menu">Timetable</span>
+              <span id="text_menu">Plan zajęć</span>
             </div>
           </li>
           <tree-view></tree-view>  
@@ -81,6 +81,7 @@
     <script src="scripts/app/config/login.route.js"></script>
     <script src="scripts/app/config/custom.route.js"></script>
     <script src="scripts/app/config/timetable.route.js"></script>
+    <script src="scripts/app/config/filterTable.route.js"></script>
 
     <script src="scripts/app/controller/main.controller.js"></script>
     <script src="scripts/app/controller/register.controller.js"></script>
@@ -90,6 +91,8 @@
     <script src="scripts/app/controller/timetable.controller.js"></script>
     <script src="scripts/app/controller/courseDetails.controller.js"></script>
     <script src="scripts/app/controller/filter.controller.js"></script>
+    <script src="scripts/app/controller/filterTable.controller.js"></script>
+    
 
     <script src="scripts/app/service/main.service.js"></script>
     <script src="scripts/app/service/datatime.service.js"></script>
