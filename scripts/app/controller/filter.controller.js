@@ -1,5 +1,5 @@
 angular.module('betterTimetable')
-    .controller('FilterCtrl', function (CourseDetailsSrv, $scope, UISrv, TimetableRsc, FilterRsc) {
+    .controller('FilterCtrl', function (CourseDetailsSrv, $scope, UISrv, TimetableRsc, FilterRsc, $rootScope) {
 
         var _labels = {
             'Exercises': "Ćwiczenia",
@@ -84,6 +84,7 @@ angular.module('betterTimetable')
 
             FilterRsc.addFilter(data, function () {
                 Materialize.toast('Success', 4000);
+                $rootScope.$broadcast('filterHasChanged');
                 $('#courseFilterModal').modal('close');
             }, function () {
                 Materialize.toast('Error! Try again.', 8000);

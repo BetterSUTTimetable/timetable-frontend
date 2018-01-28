@@ -17,7 +17,6 @@ angular.module('betterTimetable')
             });
         }
 
-        //TODO: rename func
         var _displayDetailsWithFilter = function(course, scope){
             if(course !== null || course !== undefined){
                 _course = course;

@@ -3,7 +3,7 @@
 
 angular.module('betterTimetable')
     .controller('CustomTimetableCtrl', function ($scope, TimetableRsc, $routeParams, DataTimeSrv,
-                                                 CourseProcessorSrv, CourseDetailsSrv) {
+                                                 CourseProcessorSrv, CourseDetailsSrv, $rootScope) {
         var courses = [];
         var _weekOffset = 0;
         $('.chips').material_chip();
@@ -105,6 +105,10 @@ angular.module('betterTimetable')
                 }
             }
 
+        });
+
+        $rootScope.$on('filterHasChanged', function(event, args) {
+            _getTimetable();
         });
 
         _getUserCategory();
