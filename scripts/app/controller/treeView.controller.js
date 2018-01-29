@@ -41,9 +41,6 @@ angular.module('betterTimetable')
 
         SubcategoriesRsc.query({id: id}).$promise
         .then(function(result) {
-          console.log("Chilren of " + id);
-          console.log(result);
-
             if(result.length > 0){
                 let position = findPositionOfId(id, tree);
 
