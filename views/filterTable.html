@@ -9,6 +9,7 @@
             <tr>
                 <th>Typ zajęć</th>
                 <th>Nazwa</th>
+                <th>Dzień tygodnia</th>
                 <th>Godziny</th>
                 <th>Tydzień</th>
                 <th></th>
@@ -19,6 +20,7 @@
             <tr ng-repeat="filter in filters">
                 <td ng-class="getColor(filter.id)" class="center white-text">{{filter.courseType}}</td>
                 <td>{{filter.fullCourseName}}</td>
+                <td>{{filter.dayOfWeek}}</td>
                 <td>{{filter.hours}}</td>
                 <td>{{filter.week}}</td>
                 <td>
@@ -29,4 +31,3 @@
         </table>
     </div>
 </div>
-
