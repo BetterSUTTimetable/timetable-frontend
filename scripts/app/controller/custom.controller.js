@@ -3,9 +3,15 @@
 
 angular.module('betterTimetable')
     .controller('CustomTimetableCtrl', function ($scope, TimetableRsc, $routeParams, DataTimeSrv,
+<<<<<<< Updated upstream
                                                  CourseProcessorSrv, CourseDetailsSrv, $rootScope, MAX_MOBILE_WIDTH) {
+=======
+         CourseProcessorSrv, CourseDetailsSrv, $rootScope, $location, $anchorScroll, $timeout) {
+        
+>>>>>>> Stashed changes
         var courses = [];
         var _weekOffset = 0;
+
         $('.chips').material_chip();
         var mM = window['matchMedia'] || window['msMatchMedia'];
 
@@ -45,6 +51,21 @@ angular.module('betterTimetable')
             chips.find("input").remove();
         }
 
+        var _scroll = function () {
+            $timeout(function () {
+                var today = new Date().getDay();                
+                $location.hash(today - 1);
+                $anchorScroll();
+            });         
+        };
+
+        var _scrollUp = function () {
+            $timeout(function () {                
+                $location.hash(0);
+                $anchorScroll();
+            });        
+        };
+
         $scope.hide = function (selectedCourse) {
             CourseProcessorSrv.hide(selectedCourse, courses, $scope);
         }
@@ -57,18 +78,19 @@ angular.module('betterTimetable')
             $('.chip').removeClass('selected');
             _weekOffset += 1;
             _getTimetable();
+            _scrollUp();
         }
 
         $scope.getPreviousWeek = function () {
             $('.chip').removeClass('selected');
             _weekOffset -= 1;
             _getTimetable();
+            _scrollUp();             
         }
 
         $scope.getDetails = function (selectedCourse) {
             CourseDetailsSrv.displayDetailsWithFilter(selectedCourse, $scope);
         }
-
 
         $('.chips').on('chip.delete', function(e, chip){
 
@@ -80,7 +102,6 @@ angular.module('betterTimetable')
             })
 
         });
-
 
         $('.chips').on('click.chips-select', function(e, chip){
             var $chip = $(e.target);
@@ -112,6 +133,8 @@ angular.module('betterTimetable')
             _getTimetable();
         });
 
-        _getUserCategory();
+        _getUserCategory();    
+        _scroll();                        
         _getTimetable();
+
     });
