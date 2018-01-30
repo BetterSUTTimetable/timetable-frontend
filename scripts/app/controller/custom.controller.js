@@ -3,10 +3,11 @@
 
 angular.module('betterTimetable')
     .controller('CustomTimetableCtrl', function ($scope, TimetableRsc, $routeParams, DataTimeSrv,
-                                                 CourseProcessorSrv, CourseDetailsSrv, $rootScope) {
+                                                 CourseProcessorSrv, CourseDetailsSrv, $rootScope, MAX_MOBILE_WIDTH) {
         var courses = [];
         var _weekOffset = 0;
         $('.chips').material_chip();
+        var mM = window['matchMedia'] || window['msMatchMedia'];
 
         var _getUserCategory = function () {
             TimetableRsc.getUserCategory(function (data) {

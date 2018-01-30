@@ -10,6 +10,7 @@ angular
     'LocalStorageModule', 
     'angularTreeview'
   ])
+    .constant('MAX_MOBILE_WIDTH', 992)
     .constant('URL', 'http://localhost:8080')
     .run(function($rootScope, AuthSrv, $location){
 

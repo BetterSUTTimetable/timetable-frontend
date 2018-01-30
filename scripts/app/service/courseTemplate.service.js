@@ -3,6 +3,7 @@ angular.module('betterTimetable')
     .factory('CourseTemplateSrv', function(UISrv, $compile) {
 
         var _maxSubstring = 13;
+        var _quarterOfHourWithinDay = 56;
         var _dayName = {
                 0 : "Poniedziałek",
                 1 : "Wtorek",
@@ -21,7 +22,6 @@ angular.module('betterTimetable')
             var timetable = $("#timetable");
             timetable.empty();
 
-            var quarterOfHourWithinDay = 56;
             var howManyNotEmpty = _howManyNotEmpty(groupedCourses);
 
             var unusableSpace = 12 % howManyNotEmpty ;
@@ -50,7 +50,7 @@ angular.module('betterTimetable')
                 column.append("<div class='row margin-top-10 center' ><b>" + header + "</b></div>");
 
                 //ADD EMPTY CELL
-                for(var j = 0; j < quarterOfHourWithinDay; j++){
+                for(var j = 0; j < _quarterOfHourWithinDay; j++){
                     column.append("<div class='row break reset-margin timetable'></br></div>");
                 }
                 timetable.append(column);
@@ -108,8 +108,7 @@ angular.module('betterTimetable')
 
             if(lastWithinDay) { //we would like to remove empty, unused space after this course
                 var firstAfter = offset + howManyRowsToSelect;
-                var quarterOfHourWithinDay = 56;
-                for(var k = firstAfter; k < quarterOfHourWithinDay; k++){
+                for(var k = firstAfter; k < _quarterOfHourWithinDay; k++){
                     $(dayRows[k]).remove();
                 }
             }
@@ -258,9 +257,24 @@ angular.module('betterTimetable')
             return hasCourseClass;
         }
 
+        var _resetStartingCells = function(){
+            for(var i = 0; i < 7; i++){
+                var dayColumn = $("#timetable").find("div#" + i);
+                var dayRows = dayColumn.find("div.row.timetable");
+
+                for(var j = 0; j < dayRows.length; j++){
+                    if($(dayRows[j]).hasClass('row break reset-margin timetable')){
+                        $(dayRows[j]).hide();
+                    }
+                }
+            }
+
+        }
+
         return {
             setTimetableGrid : _setTimetableGrid,
             isEmpty : _isEmpty,
-            selectProperRow : _selectProperRow
+            selectProperRow : _selectProperRow,
+            resetStartingCells : _resetStartingCells
         }
     });

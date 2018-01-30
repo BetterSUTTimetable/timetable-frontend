@@ -1,6 +1,9 @@
 
 angular.module('betterTimetable')
-    .factory('CourseProcessorSrv', function(CourseSorterSrv, CourseTemplateSrv) {
+    .factory('CourseProcessorSrv', function(CourseSorterSrv, CourseTemplateSrv, MAX_MOBILE_WIDTH) {
+
+        var mM = window['matchMedia'] || window['msMatchMedia'];
+
 
         var _processCourses = function(courses, $scope){
             var courses = CourseSorterSrv.groupAndSort(courses);
@@ -25,6 +28,12 @@ angular.module('betterTimetable')
                     }
                 }
             }
+
+            var maxMedia = _maxMedia('min-width', 'px');
+            var mobile = maxMedia <= MAX_MOBILE_WIDTH ? true : false;
+            if(mobile){
+                CourseTemplateSrv.resetStartingCells();
+            }
         }
 
         var _isLastWithinDay = function (dayCourses, index, processingCourse) {
@@ -39,6 +48,15 @@ angular.module('betterTimetable')
             });
 
             return isLast;
+        }
+
+        var _maxMedia = function(feature, unit, init, step) {
+            if (typeof init != 'number') init = 0;
+            if (!mM) return init;
+            if (typeof unit != 'string') unit = '';
+            if (typeof step != 'number') step = 1;
+            while (mM.call(window, '(' + feature + ':' + (init+=step) + unit + ')')['matches']) {}
+            return init-step;
         }
 
         var _theLatestClassWithinWeek = function(courses){
