@@ -1,10 +1,12 @@
 
 angular.module('betterTimetable')
-    .factory('CourseProcessorSrv', function(CourseSorterSrv, CourseTemplateSrv, MAX_MOBILE_WIDTH) {
+    .factory('CourseProcessorSrv', function(CourseSorterSrv, CourseTemplateSrv, DataTimeSrv) {
 
-        var mM = window['matchMedia'] || window['msMatchMedia'];
+        var _dayProps = DataTimeSrv.getDayProps();
 
         var _processCourses = function(courses, $scope){
+            console.log("COURSES : ");
+            console.log(courses);
 
             if(courses == null || courses == undefined || courses == [])
                 return;
@@ -15,15 +17,15 @@ angular.module('betterTimetable')
             var theLastest = _latestClassWithinWeek(courses);
             var theFirst = _firstWithinWeek(courses);
 
-            for(var i = 0; i < 7; i++){
+            for(var i = 0; i < _dayProps.daysWithinWeek; i++) {
 
-                if(courses[i] === null || courses[i] === undefined){
+                if (courses[i] === null || courses[i] === undefined) {
                     continue;
                 }
 
-                for(var j = 0; j < courses[i].length; j++){
+                for (var j = 0; j < courses[i].length; j++) {
 
-                    if(!CourseTemplateSrv.isEmpty(courses[i][j])) {
+                    if (!CourseTemplateSrv.isEmpty(courses[i][j])) {
 
                         var processingCourse = courses[i][j];
                         var lastWithinDay = _isLastWithinDay(courses[i], j, processingCourse);
@@ -32,15 +34,7 @@ angular.module('betterTimetable')
                 }
             }
 
-            for(var i = 0; i < 7; i ++){
 
-            }
-
-            var maxMedia = _maxMedia('min-width', 'px');
-            var mobile = maxMedia <= MAX_MOBILE_WIDTH ? true : false;
-            if(mobile){
-                CourseTemplateSrv.resetStartingCells();
-            }
         }
 
         var _isLastWithinDay = function (dayCourses, index, processingCourse) {
@@ -57,15 +51,6 @@ angular.module('betterTimetable')
             return isLast;
         }
 
-        var _maxMedia = function(feature, unit, init, step) {
-            if (typeof init != 'number') init = 0;
-            if (!mM) return init;
-            if (typeof unit != 'string') unit = '';
-            if (typeof step != 'number') step = 1;
-            while (mM.call(window, '(' + feature + ':' + (init+=step) + unit + ')')['matches']) {}
-            return init-step;
-        }
-
         var _latestClassWithinWeek = function(courses){
 
             var time = {
@@ -74,7 +59,7 @@ angular.module('betterTimetable')
             }
             var theLastest = undefined;
 
-            for(var i = 0; i < 7; i++){ //days
+            for(var i = 0; i < _dayProps.daysWithinWeek; i++){ //days
 
                 if(courses[i] === null || courses[i] === undefined){
                     continue;
@@ -107,7 +92,7 @@ angular.module('betterTimetable')
             }
             var theFirst = undefined;
 
-            for(var i = 0; i < 7; i++){ //days
+            for(var i = 0; i < _dayProps.daysWithinWeek; i++){
 
                 if(courses[i] === null || courses[i] === undefined){
                     continue;

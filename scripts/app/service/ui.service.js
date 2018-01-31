@@ -1,6 +1,8 @@
 
 angular.module('betterTimetable')
-    .factory('UISrv', function() {
+    .factory('UISrv', function(MAX_MOBILE_WIDTH) {
+
+        var mM = window['matchMedia'] || window['msMatchMedia'];
 
         var _courseTypeColors = {
             'Exercises': "amber",
@@ -28,8 +30,25 @@ angular.module('betterTimetable')
 
         }
 
+        var _maxMedia = function(feature, unit, init, step) {
+            if (typeof init != 'number') init = 0;
+            if (!mM) return init;
+            if (typeof unit != 'string') unit = '';
+            if (typeof step != 'number') step = 1;
+            while (mM.call(window, '(' + feature + ':' + (init+=step) + unit + ')')['matches']) {}
+            return init-step;
+        }
+
+        var _isMobile = function(){
+            var maxMedia = _maxMedia('min-width', 'px');
+            var mobile = maxMedia <= MAX_MOBILE_WIDTH ? true : false;
+            return mobile;
+        }
+
+
         return {
             getColor : _getColor,
+            isMobile: _isMobile,
             getGridProps : function () {
                 return _grid;
             },

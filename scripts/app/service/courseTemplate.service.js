@@ -88,7 +88,9 @@ angular.module('betterTimetable')
                 }
             }
 
-            if(lastWithinDay) {
+            var mobile = UISrv.isMobile();
+
+            if(lastWithinDay && !mobile) { //remove unnecessary cells
                 var firstBegining = DataTimeSrv.getCourseDataTime(theFirst);
                 var lastBegining = DataTimeSrv.getCourseDataTime(theLast);
 
@@ -106,6 +108,11 @@ angular.module('betterTimetable')
 
                 for(var j = lastOffset + lastRow; j < _dayProps.quartersWithinDay; j++){
                     $(dayRows[j]).remove();
+                }
+            } else if (lastWithinDay && mobile) {
+
+                for(var i = offset + howManyRowsToSelect; i < _dayProps.quartersWithinDay; i++){
+                    $(dayRows[i]).remove();
                 }
             }
         }
