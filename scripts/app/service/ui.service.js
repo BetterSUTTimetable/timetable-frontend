@@ -11,6 +11,13 @@ angular.module('betterTimetable')
             'Seminar' : "deep-purple lighten-1"
         }
 
+        var _grid = {
+            columnNumber : 12,
+            offset : 2
+        }
+
+        var _maxSubString = 13;
+
         var _getColor = function(params){
 
             if(params.courseType !== undefined && params.courseType !== null){
@@ -22,6 +29,12 @@ angular.module('betterTimetable')
         }
 
         return {
-            getColor : _getColor
+            getColor : _getColor,
+            getGridProps : function () {
+                return _grid;
+            },
+            getMaxSubString : function () {
+                return _maxSubString;
+            }
         }
     });

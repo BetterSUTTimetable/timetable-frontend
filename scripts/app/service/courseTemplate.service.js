@@ -1,83 +1,65 @@
 
 angular.module('betterTimetable')
-    .factory('CourseTemplateSrv', function(UISrv, $compile) {
+    .factory('CourseTemplateSrv', function(UISrv, $compile, DataTimeSrv) {
 
-        var _maxSubstring = 13;
-        var _quarterOfHourWithinDay = 56;
-        var _dayName = {
-                0 : "Poniedziałek",
-                1 : "Wtorek",
-                2 : "Środa",
-                3 : "Czwartek",
-                4 : "Piątek",
-                5 : "Sobota",
-                6 : "Niedziela"
-        }
-
-        var _getHeader = function(dayNumber){
-            return _dayName[dayNumber];
-        }
+        var _maxSubstring = UISrv.getMaxSubString();
+        var _dayProps = DataTimeSrv.getDayProps();
+        var _gridProps = UISrv.getGridProps();
 
         var _setTimetableGrid = function(groupedCourses){
             var timetable = $("#timetable");
             timetable.empty();
 
             var howManyNotEmpty = _howManyNotEmpty(groupedCourses);
+            var unusableSpace = _gridProps.columnNumber % howManyNotEmpty ;
+            var dayWidth = (_gridProps.columnNumber - unusableSpace) / howManyNotEmpty;
+            var offset = Math.floor(unusableSpace / _gridProps.offset);
 
-            var unusableSpace = 12 % howManyNotEmpty ;
-            var dayWidth = (12 - unusableSpace) / howManyNotEmpty;
-            var offset = Math.floor(unusableSpace / 2);
-
-            for(var i = 0; i < 7; i++){
+            for(var i = 0; i < _dayProps.daysWithinWeek; i++){
 
                 var isEmpty = _isEmpty(groupedCourses[i]);
+
                 if(isEmpty) {
                     continue;
                 }
 
-                var widthClass = "m12"  + " l" + dayWidth;
-                var id = i;
-                var column;
+                //CONSTRUCT COLUMN
+                var template = "<div id='{@id}' class='col s12 m12 l{@w} {@offset}'></div>";
+                template = template.replace("{@id}", i);
+                template = template.replace("{@w}", dayWidth);
+
                 if(i === 0 && offset !== 0){
-                    widthClass += " offset-l" + offset;
-                    column = $("<div id='" + id + "' class='col s12 " + widthClass + "'></div>");
+                    template = template.replace("{@offset}", "offset-l" + offset);
                 } else {
-                    column = $("<div id='" + id + "' class='col s12 " + widthClass + "'></div>");
+                    template = template.replace("{@offset}", "");
                 }
+
+                var column =$(template);
 
                 //ADD HEADER
                 var header = _getHeader(i);
                 column.append("<div class='row margin-top-10 center' ><b>" + header + "</b></div>");
 
                 //ADD EMPTY CELL
-                for(var j = 0; j < _quarterOfHourWithinDay; j++){
+                for(var j = 0; j < _dayProps.quartersWithinDay; j++){
                     column.append("<div class='row break reset-margin timetable'></br></div>");
                 }
                 timetable.append(column);
             }
-
         }
 
-        var _selectProperRow = function(singleCourse, dayNumber, lastWithinDay, scope){
+        var _selectProperRow = function(singleCourse, dayNumber, lastWithinDay, scope, theFirst, theLast){
+
             if(singleCourse === undefined || singleCourse === null || singleCourse.hidden){
                 return;
             }
 
-            var begin = singleCourse.beginTime.epochSecond;
             var duration = singleCourse.duration.seconds;
-
-            var beginCourseDate = new Date(1970, 0, 1); //reset
-            beginCourseDate.setSeconds(begin + 3600);
-
-            var beginDayDate = new Date(beginCourseDate);
-            beginDayDate.setHours(7, 0, 0, 0);
-
-            var diff = beginCourseDate - beginDayDate; //in mili
-
-            var secondsInQuarter = 900;
-
-            var howManyRowsToSelect = duration / secondsInQuarter;
-            var offset = diff === 0 ? 0 :(diff / 1000 )/ secondsInQuarter;
+            var courseBeginning = DataTimeSrv.getCourseDataTime(singleCourse);
+            var dayBeginning = DataTimeSrv.getDayBeginning(courseBeginning);
+            var diff = courseBeginning - dayBeginning; //in mili
+            var howManyRowsToSelect = duration / _dayProps.secondsInQuarter;
+            var offset = diff === 0 ? 0 :(diff / 1000 )/ _dayProps.secondsInQuarter;
 
             var dayColumn = $("#timetable").find("div#" + dayNumber);
             var dayRows = dayColumn.find("div.row.timetable");
@@ -90,7 +72,7 @@ angular.module('betterTimetable')
                 if(i === offset + 1){
                     _setHeader(dayRows[i], singleCourse, scope);
                 } else if (i === offset + 2) {
-                    _setHours(dayRows[i], singleCourse, beginCourseDate, scope);
+                    _setHours(dayRows[i], singleCourse, courseBeginning, scope);
                 } else if (i === offset + 3) {
                     _setRoom(dayRows[i], singleCourse, scope);
                 } else if (i === offset + howManyRowsToSelect - 2) {
@@ -106,12 +88,30 @@ angular.module('betterTimetable')
                 }
             }
 
-            if(lastWithinDay) { //we would like to remove empty, unused space after this course
-                var firstAfter = offset + howManyRowsToSelect;
-                for(var k = firstAfter; k < _quarterOfHourWithinDay; k++){
-                    $(dayRows[k]).remove();
+            if(lastWithinDay) {
+                var firstBegining = DataTimeSrv.getCourseDataTime(theFirst);
+                var lastBegining = DataTimeSrv.getCourseDataTime(theLast);
+
+                var diff = DataTimeSrv.getCourseTime(firstBegining) - _dayProps.dayBeginning;
+
+                var offset = diff === 0 ? 0 :(diff / 1000 )/ _dayProps.secondsInQuarter;
+
+                for(var i = 0; i < offset; i++){
+                    $(dayRows[i]).remove();
+                }
+
+                var lastDiff = DataTimeSrv.getCourseTime(lastBegining) - _dayProps.dayBeginning;
+                var lastRow = theLast.duration.seconds / _dayProps.secondsInQuarter;
+                var lastOffset = lastDiff === 0 ? 0 :(lastDiff / 1000 )/ _dayProps.secondsInQuarter;
+
+                for(var j = lastOffset + lastRow; j < _dayProps.quartersWithinDay; j++){
+                    $(dayRows[j]).remove();
                 }
             }
+        }
+
+        var _getHeader = function(dayNumber){
+            return DataTimeSrv.getDayName(dayNumber);
         }
 
         var _getAdditionalClass = function (i, offset, howManyRowsToSelect){
@@ -268,7 +268,6 @@ angular.module('betterTimetable')
                     }
                 }
             }
-
         }
 
         return {
