@@ -3,13 +3,14 @@
 
 angular.module('betterTimetable')
     .controller('CustomTimetableCtrl', function ($scope, TimetableRsc, $routeParams, DataTimeSrv,
-        CourseProcessorSrv, CourseDetailsSrv, $rootScope, $location, $anchorScroll, MAX_MOBILE_WIDTH, $timeout,  $window) {
+                                                CourseProcessorSrv, CourseDetailsSrv, $rootScope,
+                                                 $location, $anchorScroll, MAX_MOBILE_WIDTH,
+                                                 $window) {
 
         var courses = [];
         var _weekOffset = 0;
 
         $('.chips').material_chip();
-        var mM = window['matchMedia'] || window['msMatchMedia'];
 
         var _getUserCategory = function () {
             TimetableRsc.getUserCategory(function (data) {
@@ -35,8 +36,8 @@ angular.module('betterTimetable')
             TimetableRsc.getUserTimetable({from : week.begining, to :  week.end}, function(data){
                 $scope.currentWeek = week.begining.getDate() + "." + (week.begining.getMonth() + 1 ) + " - "+  week.end.getDate() + "." + (week.end.getMonth() + 1 );
                 courses = data;
-                CourseProcessorSrv.processCourses(courses, $scope);
-                
+                CourseProcessorSrv.processCourses(courses.slice(), $scope); //passing courses as a copy
+                //_scroll();
             }, function (error) {
                 console.log(error);
                 $scope.errorOccurs = true;
@@ -116,7 +117,7 @@ angular.module('betterTimetable')
                     TimetableRsc.getCourse({id: selectedChip.customId, from : week.begining, to :  week.end}, function(data){
                         $scope.currentWeek = week.begining.getDate() + "." + (week.begining.getMonth() + 1 ) + " - "+  week.end.getDate() + "." + (week.end.getMonth() + 1 );
                         courses = data;
-                        CourseProcessorSrv.processCourses(courses, $scope);
+                        CourseProcessorSrv.processCourses(courses.slice(), $scope); //passing courses as a copy
                     }, function () {
                         Materialize.toast('We couldn\'t load this timetable. Please try again', 4000);
                     });
@@ -132,7 +133,11 @@ angular.module('betterTimetable')
             _getTimetable();
         });
 
-        _getUserCategory();    
+        angular.element($window).bind('resize', function () {
+            CourseProcessorSrv.processCourses(courses.slice(), $scope); //passing courses as a copy
+        });
+
+        _getUserCategory();
         _getTimetable();
-        _scroll();                                
+        //_scroll();
     });

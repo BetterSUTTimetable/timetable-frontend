@@ -3,7 +3,8 @@
 
 angular.module('betterTimetable')
     .controller('TimetableCtrl', function ($scope, TimetableRsc, $routeParams, DataTimeSrv,
-                                           CourseSorterSrv, CourseTemplateSrv, CourseProcessorSrv, CourseDetailsSrv) {
+                                           CourseSorterSrv, CourseTemplateSrv, CourseProcessorSrv,
+                                           CourseDetailsSrv, $window) {
         $scope.errorOccurs = false;
         var _weekOffset = 0;
         var courses = [];
@@ -14,7 +15,7 @@ angular.module('betterTimetable')
             TimetableRsc.getCourse({id: $routeParams.id, from : week.begining, to :  week.end}, function(data){
                 $scope.currentWeek = week.begining.getDate() + "." + (week.begining.getMonth() + 1 ) + " - "+  week.end.getDate() + "." + (week.end.getMonth() + 1 );
                 courses = data;
-                CourseProcessorSrv.processCourses(courses, $scope);
+                CourseProcessorSrv.processCourses(courses.slice(), $scope); //passing courses as a copy
             }, function (error) {
                 console.log(error);
                 $scope.errorOccurs = true;
@@ -43,6 +44,10 @@ angular.module('betterTimetable')
             _weekOffset -= 1;
             _getTimetable();
         }
+
+        angular.element($window).bind('resize', function () {
+            CourseProcessorSrv.processCourses(courses.slice(), $scope); //passing courses as a copy
+        });
 
         $scope.addAll = function () {
             TimetableRsc.selectCategory($routeParams.id, function(){
