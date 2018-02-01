@@ -1,6 +1,6 @@
 
 angular.module('betterTimetable')
-    .factory('CourseProcessorSrv', function(CourseSorterSrv, CourseTemplateSrv, DataTimeSrv) {
+    .factory('CourseProcessorSrv', function(CourseSorterSrv, CourseTemplateSrv, DataTimeSrv, UISrv) {
 
         var _dayProps = DataTimeSrv.getDayProps();
 
@@ -15,7 +15,7 @@ angular.module('betterTimetable')
             var courses = CourseSorterSrv.groupAndSort(courses);
             CourseTemplateSrv.setTimetableGrid(courses);
 
-            var theLastest = _latestClassWithinWeek(courses);
+            var theLast = _latestClassWithinWeek(courses);
             var theFirst = _firstWithinWeek(courses);
 
             for(var i = 0; i < _dayProps.daysWithinWeek; i++) {
@@ -29,12 +29,12 @@ angular.module('betterTimetable')
                     if (!CourseTemplateSrv.isEmpty(courses[i][j])) {
 
                         var processingCourse = courses[i][j];
-                        var lastWithinDay = _isLastWithinDay(courses[i], j, processingCourse);
-                        CourseTemplateSrv.selectProperRow(processingCourse, i, lastWithinDay, $scope, theFirst, theLastest);
+                        //var lastWithinDay = _isLastWithinDay(courses[i], j, processingCourse);
+                        var lastWithinDay = j === courses[i].length - 1 ? true : false;
+                        CourseTemplateSrv.selectProperRow(processingCourse, i, lastWithinDay, $scope, theFirst, theLast);
                     }
                 }
             }
-
 
         }
 
