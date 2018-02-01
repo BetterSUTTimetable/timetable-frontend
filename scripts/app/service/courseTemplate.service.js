@@ -53,7 +53,7 @@ angular.module('betterTimetable')
             var dayColumn = $("#timetable").find("div#" + dayNumber);
             var dayRows = dayColumn.find("div.row.timetable");
 
-            if(singleCourse !== undefined || singleCourse !== null || !singleCourse.hidden){
+            if(singleCourse !== undefined && singleCourse !== null && !singleCourse.hidden){
 
                 var duration = singleCourse.duration.seconds;
                 var courseBeginning = DataTimeSrv.getCourseDataTime(singleCourse);

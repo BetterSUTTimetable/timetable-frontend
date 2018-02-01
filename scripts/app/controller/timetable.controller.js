@@ -28,7 +28,7 @@ angular.module('betterTimetable')
         }
 
         $scope.hide = function (selectedCourse) {
-            CourseProcessorSrv.hide(selectedCourse, courses, $scope);
+            CourseProcessorSrv.hide(selectedCourse, courses.slice(), $scope);
         }
 
         $scope.showAll = function(){

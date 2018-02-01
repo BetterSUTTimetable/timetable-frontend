@@ -50,7 +50,7 @@ angular.module('betterTimetable')
         }
 
         $scope.hide = function (selectedCourse) {
-            CourseProcessorSrv.hide(selectedCourse, courses, $scope);
+            CourseProcessorSrv.hide(selectedCourse, courses.slice(), $scope);
         }
 
         $scope.showAll = function(){
@@ -61,14 +61,12 @@ angular.module('betterTimetable')
             $('.chip').removeClass('selected');
             _weekOffset += 1;
             _getTimetable();
-            //_scrollUp();
         }
 
         $scope.getPreviousWeek = function () {
             $('.chip').removeClass('selected');
             _weekOffset -= 1;
             _getTimetable();
-            //_scrollUp();
         }
 
         $scope.getDetails = function (selectedCourse) {
