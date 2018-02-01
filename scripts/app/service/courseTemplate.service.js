@@ -50,41 +50,40 @@ angular.module('betterTimetable')
 
         var _selectProperRow = function(singleCourse, dayNumber, lastWithinDay, scope, theFirst, theLast){
 
-            if(singleCourse === undefined || singleCourse === null || singleCourse.hidden){
-                return;
-            }
+            if(singleCourse !== undefined || singleCourse !== null || !singleCourse.hidden){
 
-            var duration = singleCourse.duration.seconds;
-            var courseBeginning = DataTimeSrv.getCourseDataTime(singleCourse);
-            var dayBeginning = DataTimeSrv.getDayBeginning(courseBeginning);
-            var diff = courseBeginning - dayBeginning; //in mili
-            var howManyRowsToSelect = duration / _dayProps.secondsInQuarter;
-            var offset = diff === 0 ? 0 :(diff / 1000 )/ _dayProps.secondsInQuarter;
+                var duration = singleCourse.duration.seconds;
+                var courseBeginning = DataTimeSrv.getCourseDataTime(singleCourse);
+                var dayBeginning = DataTimeSrv.getDayBeginning(courseBeginning);
+                var diff = courseBeginning - dayBeginning; //in mili
+                var howManyRowsToSelect = duration / _dayProps.secondsInQuarter;
+                var offset = diff === 0 ? 0 :(diff / 1000 )/ _dayProps.secondsInQuarter;
 
-            var dayColumn = $("#timetable").find("div#" + dayNumber);
-            var dayRows = dayColumn.find("div.row.timetable");
+                var dayColumn = $("#timetable").find("div#" + dayNumber);
+                var dayRows = dayColumn.find("div.row.timetable");
 
-            for(var i = offset; i < offset + howManyRowsToSelect; i++){
+                for(var i = offset; i < offset + howManyRowsToSelect; i++){
 
-                //detect collision
-                var collision = _detectCollision(dayRows[i]);
+                    //detect collision
+                    var collision = _detectCollision(dayRows[i]);
 
-                if(i === offset + 1){
-                    _setHeader(dayRows[i], singleCourse, scope);
-                } else if (i === offset + 2) {
-                    _setHours(dayRows[i], singleCourse, courseBeginning, scope);
-                } else if (i === offset + 3) {
-                    _setRoom(dayRows[i], singleCourse, scope);
-                } else if (i === offset + howManyRowsToSelect - 2) {
-                    _setLecturers(dayRows[i], singleCourse, scope);
-                } else {
-                    var addClass = _getAdditionalClass(i, offset, howManyRowsToSelect);
-                    _fillCourse(dayRows[i], singleCourse, addClass, scope);
-                }
+                    if(i === offset + 1){
+                        _setHeader(dayRows[i], singleCourse, scope);
+                    } else if (i === offset + 2) {
+                        _setHours(dayRows[i], singleCourse, courseBeginning, scope);
+                    } else if (i === offset + 3) {
+                        _setRoom(dayRows[i], singleCourse, scope);
+                    } else if (i === offset + howManyRowsToSelect - 2) {
+                        _setLecturers(dayRows[i], singleCourse, scope);
+                    } else {
+                        var addClass = _getAdditionalClass(i, offset, howManyRowsToSelect);
+                        _fillCourse(dayRows[i], singleCourse, addClass, scope);
+                    }
 
-                if(collision){
-                    var addClass = "border-top";
-                    _setSwitchButton(dayRows[offset], singleCourse, scope, addClass);
+                    if(collision){
+                        var addClass = "border-top";
+                        _setSwitchButton(dayRows[offset], singleCourse, scope, addClass);
+                    }
                 }
             }
 
