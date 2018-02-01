@@ -74,9 +74,9 @@ angular.module('betterTimetable')
                     var hours = date.getHours();
                     var minutes = date.getMinutes();
 
-                    if(hours >= time.hours && minutes >= time.minutes && !courses[i][j].hidden){
+                    if((hours > time.hours || (hours == time.hours && minutes >= time.minutes)) && !courses[i][j].hidden){
                         time.hours = hours;
-                        time.miutes = minutes;
+                        time.minutes = minutes;
                         theLastest = courses[i][j];
                     }
                 }
