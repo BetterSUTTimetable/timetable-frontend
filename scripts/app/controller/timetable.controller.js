@@ -4,7 +4,7 @@
 angular.module('betterTimetable')
     .controller('TimetableCtrl', function ($scope, TimetableRsc, $routeParams, DataTimeSrv,
                                            CourseSorterSrv, CourseTemplateSrv, CourseProcessorSrv,
-                                           CourseDetailsSrv, $window) {
+                                           CourseDetailsSrv, $window, ScrollManager) {
         $scope.errorOccurs = false;
         var _weekOffset = 0;
         var courses = [];
@@ -16,8 +16,8 @@ angular.module('betterTimetable')
                 $scope.currentWeek = week.begining.getDate() + "." + (week.begining.getMonth() + 1 ) + " - "+  week.end.getDate() + "." + (week.end.getMonth() + 1 );
                 courses = data;
                 CourseProcessorSrv.processCourses(courses.slice(), $scope); //passing courses as a copy
+                ScrollManager.scroll(week);
             }, function (error) {
-                console.log(error);
                 $scope.errorOccurs = true;
                 Materialize.toast('We couldn\'t load this timetable. Please try again', 4000);
             });

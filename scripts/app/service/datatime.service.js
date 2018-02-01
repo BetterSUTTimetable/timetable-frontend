@@ -118,6 +118,16 @@ angular.module('betterTimetable')
             _dayProps.daysWithinWeek = 7;
         }
 
+        var _isDateBetween = function(date, week){
+            if(date == null || week == null)
+                return false;
+
+            if(date >= week.begining && date <= week.end)
+                return true;
+
+            return false;
+        }
+
         _initDayProps();
 
         return {
@@ -127,6 +137,7 @@ angular.module('betterTimetable')
             getCourseTime : _getCourseTime,
             getCourseDataTime : _getCourseDataTime,
             getDayBeginning : _getDayBeginning,
+            isDateBetween : _isDateBetween,
             getDayProps : function () {
                 return _dayProps;
             },

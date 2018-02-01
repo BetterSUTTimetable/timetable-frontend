@@ -4,8 +4,7 @@
 angular.module('betterTimetable')
     .controller('CustomTimetableCtrl', function ($scope, TimetableRsc, $routeParams, DataTimeSrv,
                                                 CourseProcessorSrv, CourseDetailsSrv, $rootScope,
-                                                 $location, $anchorScroll, MAX_MOBILE_WIDTH,
-                                                 $window) {
+                                                 $location, $window, ScrollManager) {
 
         var courses = [];
         var _weekOffset = 0;
@@ -37,7 +36,7 @@ angular.module('betterTimetable')
                 $scope.currentWeek = week.begining.getDate() + "." + (week.begining.getMonth() + 1 ) + " - "+  week.end.getDate() + "." + (week.end.getMonth() + 1 );
                 courses = data;
                 CourseProcessorSrv.processCourses(courses.slice(), $scope); //passing courses as a copy
-                //_scroll();
+                ScrollManager.scroll(week);
             }, function (error) {
                 console.log(error);
                 $scope.errorOccurs = true;
@@ -49,22 +48,6 @@ angular.module('betterTimetable')
             var chips = $('.chips');
             chips.find("input").remove();
         }
-
-        var _scroll = function () {
-            if($window.innerWidth <= MAX_MOBILE_WIDTH){
-                angular.element(document).ready(function () {
-                    var today = new Date().getDay();                
-                    $location.hash(today - 1);
-                    $anchorScroll();
-            });
-        }};
-
-        var _scrollUp = function () {
-            if($window.innerWidth <= MAX_MOBILE_WIDTH) {            
-                angular.element(document).ready(function () {
-                $window.scrollTo(0, 0);
-            });
-        }};
 
         $scope.hide = function (selectedCourse) {
             CourseProcessorSrv.hide(selectedCourse, courses, $scope);
@@ -78,14 +61,14 @@ angular.module('betterTimetable')
             $('.chip').removeClass('selected');
             _weekOffset += 1;
             _getTimetable();
-            _scrollUp();
+            //_scrollUp();
         }
 
         $scope.getPreviousWeek = function () {
             $('.chip').removeClass('selected');
             _weekOffset -= 1;
             _getTimetable();
-            _scrollUp();             
+            //_scrollUp();
         }
 
         $scope.getDetails = function (selectedCourse) {
@@ -118,6 +101,7 @@ angular.module('betterTimetable')
                         $scope.currentWeek = week.begining.getDate() + "." + (week.begining.getMonth() + 1 ) + " - "+  week.end.getDate() + "." + (week.end.getMonth() + 1 );
                         courses = data;
                         CourseProcessorSrv.processCourses(courses.slice(), $scope); //passing courses as a copy
+                        ScrollManager.scroll(week);
                     }, function () {
                         Materialize.toast('We couldn\'t load this timetable. Please try again', 4000);
                     });
