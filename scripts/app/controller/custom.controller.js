@@ -3,12 +3,8 @@
 
 angular.module('betterTimetable')
     .controller('CustomTimetableCtrl', function ($scope, TimetableRsc, $routeParams, DataTimeSrv,
-<<<<<<< Updated upstream
-                                                 CourseProcessorSrv, CourseDetailsSrv, $rootScope, MAX_MOBILE_WIDTH) {
-=======
-         CourseProcessorSrv, CourseDetailsSrv, $rootScope, $location, $anchorScroll, $timeout) {
-        
->>>>>>> Stashed changes
+        CourseProcessorSrv, CourseDetailsSrv, $rootScope, $location, $anchorScroll, MAX_MOBILE_WIDTH, $timeout,  $window) {
+
         var courses = [];
         var _weekOffset = 0;
 
@@ -33,12 +29,14 @@ angular.module('betterTimetable')
         }
 
         var _getTimetable = function(){
+            
             var week = DataTimeSrv.getWeekInterval(_weekOffset);
 
             TimetableRsc.getUserTimetable({from : week.begining, to :  week.end}, function(data){
                 $scope.currentWeek = week.begining.getDate() + "." + (week.begining.getMonth() + 1 ) + " - "+  week.end.getDate() + "." + (week.end.getMonth() + 1 );
                 courses = data;
                 CourseProcessorSrv.processCourses(courses, $scope);
+                
             }, function (error) {
                 console.log(error);
                 $scope.errorOccurs = true;
@@ -52,19 +50,20 @@ angular.module('betterTimetable')
         }
 
         var _scroll = function () {
-            $timeout(function () {
-                var today = new Date().getDay();                
-                $location.hash(today - 1);
-                $anchorScroll();
-            });         
-        };
+            if($window.innerWidth <= MAX_MOBILE_WIDTH){
+                angular.element(document).ready(function () {
+                    var today = new Date().getDay();                
+                    $location.hash(today - 1);
+                    $anchorScroll();
+            });
+        }};
 
         var _scrollUp = function () {
-            $timeout(function () {                
-                $location.hash(0);
-                $anchorScroll();
-            });        
-        };
+            if($window.innerWidth <= MAX_MOBILE_WIDTH) {            
+                angular.element(document).ready(function () {
+                $window.scrollTo(0, 0);
+            });
+        }};
 
         $scope.hide = function (selectedCourse) {
             CourseProcessorSrv.hide(selectedCourse, courses, $scope);
@@ -134,7 +133,6 @@ angular.module('betterTimetable')
         });
 
         _getUserCategory();    
-        _scroll();                        
         _getTimetable();
-
+        _scroll();                                
     });

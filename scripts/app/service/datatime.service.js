@@ -21,8 +21,7 @@ angular.module('betterTimetable')
 
             var diff = dayNumber == 0 ? 6 : (dayNumber - 1);
 
-            // var begining = new Date();
-            var begining = new Date(2018,0,17);
+            var begining = new Date();
             begining.setDate(begining.getDate() - diff);
             begining.setHours( 0, 0, 0, 0 );
             return begining
