@@ -50,6 +50,9 @@ angular.module('betterTimetable')
 
         var _selectProperRow = function(singleCourse, dayNumber, lastWithinDay, scope, theFirst, theLast){
 
+            var dayColumn = $("#timetable").find("div#" + dayNumber);
+            var dayRows = dayColumn.find("div.row.timetable");
+
             if(singleCourse !== undefined || singleCourse !== null || !singleCourse.hidden){
 
                 var duration = singleCourse.duration.seconds;
@@ -58,9 +61,6 @@ angular.module('betterTimetable')
                 var diff = courseBeginning - dayBeginning; //in mili
                 var howManyRowsToSelect = duration / _dayProps.secondsInQuarter;
                 var offset = diff === 0 ? 0 :(diff / 1000 )/ _dayProps.secondsInQuarter;
-
-                var dayColumn = $("#timetable").find("div#" + dayNumber);
-                var dayRows = dayColumn.find("div.row.timetable");
 
                 for(var i = offset; i < offset + howManyRowsToSelect; i++){
 
